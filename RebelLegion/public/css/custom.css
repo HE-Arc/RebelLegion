@@ -1,0 +1,18 @@
+.log-in-form
+{
+	border: 1px solid #cacaca;
+	padding: 5%;
+	border-radius: 3px;
+}
+
+.show-password-icon
+{
+	font-size: 37px;
+	padding: 0
+}
+
+.active
+{
+    background-color: #970b0e;
+	font-size: 39px;
+}
