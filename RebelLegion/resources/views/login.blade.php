@@ -2,7 +2,6 @@
 
 @section('content') 
 
-
 <div class="row">
 	<div class="small-12 small-centered medium-8 large-6 columns">
 
@@ -28,7 +27,7 @@
 				</div>
 								
 
-				<p><a type="submit" class="button expanded">Se connecter</a></p>
+				<p><a type="submit" class="button expanded menu_link">Se connecter</a></p>
 
 				<p class="text-center"><a href="#">Mot de passe oublié?</a></p>     		
 
@@ -38,9 +37,7 @@
 	</div>
 </div>
 
-
 <script>
-
 $(document).ready(function(){
  
 			$('#show-password').click(function() {
@@ -56,6 +53,9 @@ $(document).ready(function(){
 					$('.show-password-icon').removeClass('warning');
 				}
 			});
+			
+			
+			$('#menu_link_login').parent().addClass('active');
  
 		});
 </script>

@@ -1,5 +1,5 @@
 @include('header')
 
-@include('topbarAndContent')       
+@yield('content')      
 		
 @include('footer')

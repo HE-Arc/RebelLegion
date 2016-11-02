@@ -388,6 +388,325 @@
 
 !function ($) {
 
+  Foundation.Box = {
+    ImNotTouchingYou: ImNotTouchingYou,
+    GetDimensions: GetDimensions,
+    GetOffsets: GetOffsets
+  };
+
+  /**
+   * Compares the dimensions of an element to a container and determines collision events with container.
+   * @function
+   * @param {jQuery} element - jQuery object to test for collisions.
+   * @param {jQuery} parent - jQuery object to use as bounding container.
+   * @param {Boolean} lrOnly - set to true to check left and right values only.
+   * @param {Boolean} tbOnly - set to true to check top and bottom values only.
+   * @default if no parent object passed, detects collisions with `window`.
+   * @returns {Boolean} - true if collision free, false if a collision in any direction.
+   */
+  function ImNotTouchingYou(element, parent, lrOnly, tbOnly) {
+    var eleDims = GetDimensions(element),
+        top,
+        bottom,
+        left,
+        right;
+
+    if (parent) {
+      var parDims = GetDimensions(parent);
+
+      bottom = eleDims.offset.top + eleDims.height <= parDims.height + parDims.offset.top;
+      top = eleDims.offset.top >= parDims.offset.top;
+      left = eleDims.offset.left >= parDims.offset.left;
+      right = eleDims.offset.left + eleDims.width <= parDims.width + parDims.offset.left;
+    } else {
+      bottom = eleDims.offset.top + eleDims.height <= eleDims.windowDims.height + eleDims.windowDims.offset.top;
+      top = eleDims.offset.top >= eleDims.windowDims.offset.top;
+      left = eleDims.offset.left >= eleDims.windowDims.offset.left;
+      right = eleDims.offset.left + eleDims.width <= eleDims.windowDims.width;
+    }
+
+    var allDirs = [bottom, top, left, right];
+
+    if (lrOnly) {
+      return left === right === true;
+    }
+
+    if (tbOnly) {
+      return top === bottom === true;
+    }
+
+    return allDirs.indexOf(false) === -1;
+  };
+
+  /**
+   * Uses native methods to return an object of dimension values.
+   * @function
+   * @param {jQuery || HTML} element - jQuery object or DOM element for which to get the dimensions. Can be any element other that document or window.
+   * @returns {Object} - nested object of integer pixel values
+   * TODO - if element is window, return only those values.
+   */
+  function GetDimensions(elem, test) {
+    elem = elem.length ? elem[0] : elem;
+
+    if (elem === window || elem === document) {
+      throw new Error("I'm sorry, Dave. I'm afraid I can't do that.");
+    }
+
+    var rect = elem.getBoundingClientRect(),
+        parRect = elem.parentNode.getBoundingClientRect(),
+        winRect = document.body.getBoundingClientRect(),
+        winY = window.pageYOffset,
+        winX = window.pageXOffset;
+
+    return {
+      width: rect.width,
+      height: rect.height,
+      offset: {
+        top: rect.top + winY,
+        left: rect.left + winX
+      },
+      parentDims: {
+        width: parRect.width,
+        height: parRect.height,
+        offset: {
+          top: parRect.top + winY,
+          left: parRect.left + winX
+        }
+      },
+      windowDims: {
+        width: winRect.width,
+        height: winRect.height,
+        offset: {
+          top: winY,
+          left: winX
+        }
+      }
+    };
+  }
+
+  /**
+   * Returns an object of top and left integer pixel values for dynamically rendered elements,
+   * such as: Tooltip, Reveal, and Dropdown
+   * @function
+   * @param {jQuery} element - jQuery object for the element being positioned.
+   * @param {jQuery} anchor - jQuery object for the element's anchor point.
+   * @param {String} position - a string relating to the desired position of the element, relative to it's anchor
+   * @param {Number} vOffset - integer pixel value of desired vertical separation between anchor and element.
+   * @param {Number} hOffset - integer pixel value of desired horizontal separation between anchor and element.
+   * @param {Boolean} isOverflow - if a collision event is detected, sets to true to default the element to full width - any desired offset.
+   * TODO alter/rewrite to work with `em` values as well/instead of pixels
+   */
+  function GetOffsets(element, anchor, position, vOffset, hOffset, isOverflow) {
+    var $eleDims = GetDimensions(element),
+        $anchorDims = anchor ? GetDimensions(anchor) : null;
+
+    switch (position) {
+      case 'top':
+        return {
+          left: Foundation.rtl() ? $anchorDims.offset.left - $eleDims.width + $anchorDims.width : $anchorDims.offset.left,
+          top: $anchorDims.offset.top - ($eleDims.height + vOffset)
+        };
+        break;
+      case 'left':
+        return {
+          left: $anchorDims.offset.left - ($eleDims.width + hOffset),
+          top: $anchorDims.offset.top
+        };
+        break;
+      case 'right':
+        return {
+          left: $anchorDims.offset.left + $anchorDims.width + hOffset,
+          top: $anchorDims.offset.top
+        };
+        break;
+      case 'center top':
+        return {
+          left: $anchorDims.offset.left + $anchorDims.width / 2 - $eleDims.width / 2,
+          top: $anchorDims.offset.top - ($eleDims.height + vOffset)
+        };
+        break;
+      case 'center bottom':
+        return {
+          left: isOverflow ? hOffset : $anchorDims.offset.left + $anchorDims.width / 2 - $eleDims.width / 2,
+          top: $anchorDims.offset.top + $anchorDims.height + vOffset
+        };
+        break;
+      case 'center left':
+        return {
+          left: $anchorDims.offset.left - ($eleDims.width + hOffset),
+          top: $anchorDims.offset.top + $anchorDims.height / 2 - $eleDims.height / 2
+        };
+        break;
+      case 'center right':
+        return {
+          left: $anchorDims.offset.left + $anchorDims.width + hOffset + 1,
+          top: $anchorDims.offset.top + $anchorDims.height / 2 - $eleDims.height / 2
+        };
+        break;
+      case 'center':
+        return {
+          left: $eleDims.windowDims.offset.left + $eleDims.windowDims.width / 2 - $eleDims.width / 2,
+          top: $eleDims.windowDims.offset.top + $eleDims.windowDims.height / 2 - $eleDims.height / 2
+        };
+        break;
+      case 'reveal':
+        return {
+          left: ($eleDims.windowDims.width - $eleDims.width) / 2,
+          top: $eleDims.windowDims.offset.top + vOffset
+        };
+      case 'reveal full':
+        return {
+          left: $eleDims.windowDims.offset.left,
+          top: $eleDims.windowDims.offset.top
+        };
+        break;
+      case 'left bottom':
+        return {
+          left: $anchorDims.offset.left,
+          top: $anchorDims.offset.top + $anchorDims.height
+        };
+        break;
+      case 'right bottom':
+        return {
+          left: $anchorDims.offset.left + $anchorDims.width + hOffset - $eleDims.width,
+          top: $anchorDims.offset.top + $anchorDims.height
+        };
+        break;
+      default:
+        return {
+          left: Foundation.rtl() ? $anchorDims.offset.left - $eleDims.width + $anchorDims.width : $anchorDims.offset.left + hOffset,
+          top: $anchorDims.offset.top + $anchorDims.height + vOffset
+        };
+    }
+  }
+}(jQuery);
+/*******************************************
+ *                                         *
+ * This util was created by Marius Olbertz *
+ * Please thank Marius on GitHub /owlbertz *
+ * or the web http://www.mariusolbertz.de/ *
+ *                                         *
+ ******************************************/
+
+'use strict';
+
+!function ($) {
+
+  var keyCodes = {
+    9: 'TAB',
+    13: 'ENTER',
+    27: 'ESCAPE',
+    32: 'SPACE',
+    37: 'ARROW_LEFT',
+    38: 'ARROW_UP',
+    39: 'ARROW_RIGHT',
+    40: 'ARROW_DOWN'
+  };
+
+  var commands = {};
+
+  var Keyboard = {
+    keys: getKeyCodes(keyCodes),
+
+    /**
+     * Parses the (keyboard) event and returns a String that represents its key
+     * Can be used like Foundation.parseKey(event) === Foundation.keys.SPACE
+     * @param {Event} event - the event generated by the event handler
+     * @return String key - String that represents the key pressed
+     */
+    parseKey: function (event) {
+      var key = keyCodes[event.which || event.keyCode] || String.fromCharCode(event.which).toUpperCase();
+      if (event.shiftKey) key = 'SHIFT_' + key;
+      if (event.ctrlKey) key = 'CTRL_' + key;
+      if (event.altKey) key = 'ALT_' + key;
+      return key;
+    },
+
+
+    /**
+     * Handles the given (keyboard) event
+     * @param {Event} event - the event generated by the event handler
+     * @param {String} component - Foundation component's name, e.g. Slider or Reveal
+     * @param {Objects} functions - collection of functions that are to be executed
+     */
+    handleKey: function (event, component, functions) {
+      var commandList = commands[component],
+          keyCode = this.parseKey(event),
+          cmds,
+          command,
+          fn;
+
+      if (!commandList) return console.warn('Component not defined!');
+
+      if (typeof commandList.ltr === 'undefined') {
+        // this component does not differentiate between ltr and rtl
+        cmds = commandList; // use plain list
+      } else {
+        // merge ltr and rtl: if document is rtl, rtl overwrites ltr and vice versa
+        if (Foundation.rtl()) cmds = $.extend({}, commandList.ltr, commandList.rtl);else cmds = $.extend({}, commandList.rtl, commandList.ltr);
+      }
+      command = cmds[keyCode];
+
+      fn = functions[command];
+      if (fn && typeof fn === 'function') {
+        // execute function  if exists
+        var returnValue = fn.apply();
+        if (functions.handled || typeof functions.handled === 'function') {
+          // execute function when event was handled
+          functions.handled(returnValue);
+        }
+      } else {
+        if (functions.unhandled || typeof functions.unhandled === 'function') {
+          // execute function when event was not handled
+          functions.unhandled();
+        }
+      }
+    },
+
+
+    /**
+     * Finds all focusable elements within the given `$element`
+     * @param {jQuery} $element - jQuery object to search within
+     * @return {jQuery} $focusable - all focusable elements within `$element`
+     */
+    findFocusable: function ($element) {
+      return $element.find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]').filter(function () {
+        if (!$(this).is(':visible') || $(this).attr('tabindex') < 0) {
+          return false;
+        } //only have visible elements and those that have a tabindex greater or equal 0
+        return true;
+      });
+    },
+
+
+    /**
+     * Returns the component name name
+     * @param {Object} component - Foundation component, e.g. Slider or Reveal
+     * @return String componentName
+     */
+
+    register: function (componentName, cmds) {
+      commands[componentName] = cmds;
+    }
+  };
+
+  /*
+   * Constants for easier comparing.
+   * Can be used like Foundation.parseKey(event) === Foundation.keys.SPACE
+   */
+  function getKeyCodes(kcs) {
+    var k = {};
+    for (var kc in kcs) {
+      k[kcs[kc]] = kcs[kc];
+    }return k;
+  }
+
+  Foundation.Keyboard = Keyboard;
+}(jQuery);
+'use strict';
+
+!function ($) {
+
   // Default set of media queries
   var defaultQueries = {
     'default': 'only screen',
@@ -600,129 +919,6 @@
 
   Foundation.MediaQuery = MediaQuery;
 }(jQuery);
-/*******************************************
- *                                         *
- * This util was created by Marius Olbertz *
- * Please thank Marius on GitHub /owlbertz *
- * or the web http://www.mariusolbertz.de/ *
- *                                         *
- ******************************************/
-
-'use strict';
-
-!function ($) {
-
-  var keyCodes = {
-    9: 'TAB',
-    13: 'ENTER',
-    27: 'ESCAPE',
-    32: 'SPACE',
-    37: 'ARROW_LEFT',
-    38: 'ARROW_UP',
-    39: 'ARROW_RIGHT',
-    40: 'ARROW_DOWN'
-  };
-
-  var commands = {};
-
-  var Keyboard = {
-    keys: getKeyCodes(keyCodes),
-
-    /**
-     * Parses the (keyboard) event and returns a String that represents its key
-     * Can be used like Foundation.parseKey(event) === Foundation.keys.SPACE
-     * @param {Event} event - the event generated by the event handler
-     * @return String key - String that represents the key pressed
-     */
-    parseKey: function (event) {
-      var key = keyCodes[event.which || event.keyCode] || String.fromCharCode(event.which).toUpperCase();
-      if (event.shiftKey) key = 'SHIFT_' + key;
-      if (event.ctrlKey) key = 'CTRL_' + key;
-      if (event.altKey) key = 'ALT_' + key;
-      return key;
-    },
-
-
-    /**
-     * Handles the given (keyboard) event
-     * @param {Event} event - the event generated by the event handler
-     * @param {String} component - Foundation component's name, e.g. Slider or Reveal
-     * @param {Objects} functions - collection of functions that are to be executed
-     */
-    handleKey: function (event, component, functions) {
-      var commandList = commands[component],
-          keyCode = this.parseKey(event),
-          cmds,
-          command,
-          fn;
-
-      if (!commandList) return console.warn('Component not defined!');
-
-      if (typeof commandList.ltr === 'undefined') {
-        // this component does not differentiate between ltr and rtl
-        cmds = commandList; // use plain list
-      } else {
-          // merge ltr and rtl: if document is rtl, rtl overwrites ltr and vice versa
-          if (Foundation.rtl()) cmds = $.extend({}, commandList.ltr, commandList.rtl);else cmds = $.extend({}, commandList.rtl, commandList.ltr);
-        }
-      command = cmds[keyCode];
-
-      fn = functions[command];
-      if (fn && typeof fn === 'function') {
-        // execute function  if exists
-        var returnValue = fn.apply();
-        if (functions.handled || typeof functions.handled === 'function') {
-          // execute function when event was handled
-          functions.handled(returnValue);
-        }
-      } else {
-        if (functions.unhandled || typeof functions.unhandled === 'function') {
-          // execute function when event was not handled
-          functions.unhandled();
-        }
-      }
-    },
-
-
-    /**
-     * Finds all focusable elements within the given `$element`
-     * @param {jQuery} $element - jQuery object to search within
-     * @return {jQuery} $focusable - all focusable elements within `$element`
-     */
-    findFocusable: function ($element) {
-      return $element.find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]').filter(function () {
-        if (!$(this).is(':visible') || $(this).attr('tabindex') < 0) {
-          return false;
-        } //only have visible elements and those that have a tabindex greater or equal 0
-        return true;
-      });
-    },
-
-
-    /**
-     * Returns the component name name
-     * @param {Object} component - Foundation component, e.g. Slider or Reveal
-     * @return String componentName
-     */
-
-    register: function (componentName, cmds) {
-      commands[componentName] = cmds;
-    }
-  };
-
-  /*
-   * Constants for easier comparing.
-   * Can be used like Foundation.parseKey(event) === Foundation.keys.SPACE
-   */
-  function getKeyCodes(kcs) {
-    var k = {};
-    for (var kc in kcs) {
-      k[kcs[kc]] = kcs[kc];
-    }return k;
-  }
-
-  Foundation.Keyboard = Keyboard;
-}(jQuery);
 'use strict';
 
 !function ($) {
@@ -826,7 +1022,7 @@
 
   var Nest = {
     Feather: function (menu) {
-      var type = arguments.length <= 1 || arguments[1] === undefined ? 'zf' : arguments[1];
+      var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'zf';
 
       menu.attr('role', 'menubar');
 
@@ -889,445 +1085,6 @@
 
   Foundation.Nest = Nest;
 }(jQuery);
-'use strict';
-
-!function ($) {
-
-  Foundation.Box = {
-    ImNotTouchingYou: ImNotTouchingYou,
-    GetDimensions: GetDimensions,
-    GetOffsets: GetOffsets
-  };
-
-  /**
-   * Compares the dimensions of an element to a container and determines collision events with container.
-   * @function
-   * @param {jQuery} element - jQuery object to test for collisions.
-   * @param {jQuery} parent - jQuery object to use as bounding container.
-   * @param {Boolean} lrOnly - set to true to check left and right values only.
-   * @param {Boolean} tbOnly - set to true to check top and bottom values only.
-   * @default if no parent object passed, detects collisions with `window`.
-   * @returns {Boolean} - true if collision free, false if a collision in any direction.
-   */
-  function ImNotTouchingYou(element, parent, lrOnly, tbOnly) {
-    var eleDims = GetDimensions(element),
-        top,
-        bottom,
-        left,
-        right;
-
-    if (parent) {
-      var parDims = GetDimensions(parent);
-
-      bottom = eleDims.offset.top + eleDims.height <= parDims.height + parDims.offset.top;
-      top = eleDims.offset.top >= parDims.offset.top;
-      left = eleDims.offset.left >= parDims.offset.left;
-      right = eleDims.offset.left + eleDims.width <= parDims.width + parDims.offset.left;
-    } else {
-      bottom = eleDims.offset.top + eleDims.height <= eleDims.windowDims.height + eleDims.windowDims.offset.top;
-      top = eleDims.offset.top >= eleDims.windowDims.offset.top;
-      left = eleDims.offset.left >= eleDims.windowDims.offset.left;
-      right = eleDims.offset.left + eleDims.width <= eleDims.windowDims.width;
-    }
-
-    var allDirs = [bottom, top, left, right];
-
-    if (lrOnly) {
-      return left === right === true;
-    }
-
-    if (tbOnly) {
-      return top === bottom === true;
-    }
-
-    return allDirs.indexOf(false) === -1;
-  };
-
-  /**
-   * Uses native methods to return an object of dimension values.
-   * @function
-   * @param {jQuery || HTML} element - jQuery object or DOM element for which to get the dimensions. Can be any element other that document or window.
-   * @returns {Object} - nested object of integer pixel values
-   * TODO - if element is window, return only those values.
-   */
-  function GetDimensions(elem, test) {
-    elem = elem.length ? elem[0] : elem;
-
-    if (elem === window || elem === document) {
-      throw new Error("I'm sorry, Dave. I'm afraid I can't do that.");
-    }
-
-    var rect = elem.getBoundingClientRect(),
-        parRect = elem.parentNode.getBoundingClientRect(),
-        winRect = document.body.getBoundingClientRect(),
-        winY = window.pageYOffset,
-        winX = window.pageXOffset;
-
-    return {
-      width: rect.width,
-      height: rect.height,
-      offset: {
-        top: rect.top + winY,
-        left: rect.left + winX
-      },
-      parentDims: {
-        width: parRect.width,
-        height: parRect.height,
-        offset: {
-          top: parRect.top + winY,
-          left: parRect.left + winX
-        }
-      },
-      windowDims: {
-        width: winRect.width,
-        height: winRect.height,
-        offset: {
-          top: winY,
-          left: winX
-        }
-      }
-    };
-  }
-
-  /**
-   * Returns an object of top and left integer pixel values for dynamically rendered elements,
-   * such as: Tooltip, Reveal, and Dropdown
-   * @function
-   * @param {jQuery} element - jQuery object for the element being positioned.
-   * @param {jQuery} anchor - jQuery object for the element's anchor point.
-   * @param {String} position - a string relating to the desired position of the element, relative to it's anchor
-   * @param {Number} vOffset - integer pixel value of desired vertical separation between anchor and element.
-   * @param {Number} hOffset - integer pixel value of desired horizontal separation between anchor and element.
-   * @param {Boolean} isOverflow - if a collision event is detected, sets to true to default the element to full width - any desired offset.
-   * TODO alter/rewrite to work with `em` values as well/instead of pixels
-   */
-  function GetOffsets(element, anchor, position, vOffset, hOffset, isOverflow) {
-    var $eleDims = GetDimensions(element),
-        $anchorDims = anchor ? GetDimensions(anchor) : null;
-
-    switch (position) {
-      case 'top':
-        return {
-          left: Foundation.rtl() ? $anchorDims.offset.left - $eleDims.width + $anchorDims.width : $anchorDims.offset.left,
-          top: $anchorDims.offset.top - ($eleDims.height + vOffset)
-        };
-        break;
-      case 'left':
-        return {
-          left: $anchorDims.offset.left - ($eleDims.width + hOffset),
-          top: $anchorDims.offset.top
-        };
-        break;
-      case 'right':
-        return {
-          left: $anchorDims.offset.left + $anchorDims.width + hOffset,
-          top: $anchorDims.offset.top
-        };
-        break;
-      case 'center top':
-        return {
-          left: $anchorDims.offset.left + $anchorDims.width / 2 - $eleDims.width / 2,
-          top: $anchorDims.offset.top - ($eleDims.height + vOffset)
-        };
-        break;
-      case 'center bottom':
-        return {
-          left: isOverflow ? hOffset : $anchorDims.offset.left + $anchorDims.width / 2 - $eleDims.width / 2,
-          top: $anchorDims.offset.top + $anchorDims.height + vOffset
-        };
-        break;
-      case 'center left':
-        return {
-          left: $anchorDims.offset.left - ($eleDims.width + hOffset),
-          top: $anchorDims.offset.top + $anchorDims.height / 2 - $eleDims.height / 2
-        };
-        break;
-      case 'center right':
-        return {
-          left: $anchorDims.offset.left + $anchorDims.width + hOffset + 1,
-          top: $anchorDims.offset.top + $anchorDims.height / 2 - $eleDims.height / 2
-        };
-        break;
-      case 'center':
-        return {
-          left: $eleDims.windowDims.offset.left + $eleDims.windowDims.width / 2 - $eleDims.width / 2,
-          top: $eleDims.windowDims.offset.top + $eleDims.windowDims.height / 2 - $eleDims.height / 2
-        };
-        break;
-      case 'reveal':
-        return {
-          left: ($eleDims.windowDims.width - $eleDims.width) / 2,
-          top: $eleDims.windowDims.offset.top + vOffset
-        };
-      case 'reveal full':
-        return {
-          left: $eleDims.windowDims.offset.left,
-          top: $eleDims.windowDims.offset.top
-        };
-        break;
-      case 'left bottom':
-        return {
-          left: $anchorDims.offset.left,
-          top: $anchorDims.offset.top + $anchorDims.height
-        };
-        break;
-      case 'right bottom':
-        return {
-          left: $anchorDims.offset.left + $anchorDims.width + hOffset - $eleDims.width,
-          top: $anchorDims.offset.top + $anchorDims.height
-        };
-        break;
-      default:
-        return {
-          left: Foundation.rtl() ? $anchorDims.offset.left - $eleDims.width + $anchorDims.width : $anchorDims.offset.left + hOffset,
-          top: $anchorDims.offset.top + $anchorDims.height + vOffset
-        };
-    }
-  }
-}(jQuery);
-'use strict';
-
-!function ($) {
-
-  var MutationObserver = function () {
-    var prefixes = ['WebKit', 'Moz', 'O', 'Ms', ''];
-    for (var i = 0; i < prefixes.length; i++) {
-      if (prefixes[i] + 'MutationObserver' in window) {
-        return window[prefixes[i] + 'MutationObserver'];
-      }
-    }
-    return false;
-  }();
-
-  var triggers = function (el, type) {
-    el.data(type).split(' ').forEach(function (id) {
-      $('#' + id)[type === 'close' ? 'trigger' : 'triggerHandler'](type + '.zf.trigger', [el]);
-    });
-  };
-  // Elements with [data-open] will reveal a plugin that supports it when clicked.
-  $(document).on('click.zf.trigger', '[data-open]', function () {
-    triggers($(this), 'open');
-  });
-
-  // Elements with [data-close] will close a plugin that supports it when clicked.
-  // If used without a value on [data-close], the event will bubble, allowing it to close a parent component.
-  $(document).on('click.zf.trigger', '[data-close]', function () {
-    var id = $(this).data('close');
-    if (id) {
-      triggers($(this), 'close');
-    } else {
-      $(this).trigger('close.zf.trigger');
-    }
-  });
-
-  // Elements with [data-toggle] will toggle a plugin that supports it when clicked.
-  $(document).on('click.zf.trigger', '[data-toggle]', function () {
-    triggers($(this), 'toggle');
-  });
-
-  // Elements with [data-closable] will respond to close.zf.trigger events.
-  $(document).on('close.zf.trigger', '[data-closable]', function (e) {
-    e.stopPropagation();
-    var animation = $(this).data('closable');
-
-    if (animation !== '') {
-      Foundation.Motion.animateOut($(this), animation, function () {
-        $(this).trigger('closed.zf');
-      });
-    } else {
-      $(this).fadeOut().trigger('closed.zf');
-    }
-  });
-
-  $(document).on('focus.zf.trigger blur.zf.trigger', '[data-toggle-focus]', function () {
-    var id = $(this).data('toggle-focus');
-    $('#' + id).triggerHandler('toggle.zf.trigger', [$(this)]);
-  });
-
-  /**
-  * Fires once after all other scripts have loaded
-  * @function
-  * @private
-  */
-  $(window).on('load', function () {
-    checkListeners();
-  });
-
-  function checkListeners() {
-    eventsListener();
-    resizeListener();
-    scrollListener();
-    closemeListener();
-  }
-
-  //******** only fires this function once on load, if there's something to watch ********
-  function closemeListener(pluginName) {
-    var yetiBoxes = $('[data-yeti-box]'),
-        plugNames = ['dropdown', 'tooltip', 'reveal'];
-
-    if (pluginName) {
-      if (typeof pluginName === 'string') {
-        plugNames.push(pluginName);
-      } else if (typeof pluginName === 'object' && typeof pluginName[0] === 'string') {
-        plugNames.concat(pluginName);
-      } else {
-        console.error('Plugin names must be strings');
-      }
-    }
-    if (yetiBoxes.length) {
-      var listeners = plugNames.map(function (name) {
-        return 'closeme.zf.' + name;
-      }).join(' ');
-
-      $(window).off(listeners).on(listeners, function (e, pluginId) {
-        var plugin = e.namespace.split('.')[0];
-        var plugins = $('[data-' + plugin + ']').not('[data-yeti-box="' + pluginId + '"]');
-
-        plugins.each(function () {
-          var _this = $(this);
-
-          _this.triggerHandler('close.zf.trigger', [_this]);
-        });
-      });
-    }
-  }
-
-  function resizeListener(debounce) {
-    var timer = void 0,
-        $nodes = $('[data-resize]');
-    if ($nodes.length) {
-      $(window).off('resize.zf.trigger').on('resize.zf.trigger', function (e) {
-        if (timer) {
-          clearTimeout(timer);
-        }
-
-        timer = setTimeout(function () {
-
-          if (!MutationObserver) {
-            //fallback for IE 9
-            $nodes.each(function () {
-              $(this).triggerHandler('resizeme.zf.trigger');
-            });
-          }
-          //trigger all listening elements and signal a resize event
-          $nodes.attr('data-events', "resize");
-        }, debounce || 10); //default time to emit resize event
-      });
-    }
-  }
-
-  function scrollListener(debounce) {
-    var timer = void 0,
-        $nodes = $('[data-scroll]');
-    if ($nodes.length) {
-      $(window).off('scroll.zf.trigger').on('scroll.zf.trigger', function (e) {
-        if (timer) {
-          clearTimeout(timer);
-        }
-
-        timer = setTimeout(function () {
-
-          if (!MutationObserver) {
-            //fallback for IE 9
-            $nodes.each(function () {
-              $(this).triggerHandler('scrollme.zf.trigger');
-            });
-          }
-          //trigger all listening elements and signal a scroll event
-          $nodes.attr('data-events', "scroll");
-        }, debounce || 10); //default time to emit scroll event
-      });
-    }
-  }
-
-  function eventsListener() {
-    if (!MutationObserver) {
-      return false;
-    }
-    var nodes = document.querySelectorAll('[data-resize], [data-scroll], [data-mutate]');
-
-    //element callback
-    var listeningElementsMutation = function (mutationRecordsList) {
-      var $target = $(mutationRecordsList[0].target);
-      //trigger the event handler for the element depending on type
-      switch ($target.attr("data-events")) {
-
-        case "resize":
-          $target.triggerHandler('resizeme.zf.trigger', [$target]);
-          break;
-
-        case "scroll":
-          $target.triggerHandler('scrollme.zf.trigger', [$target, window.pageYOffset]);
-          break;
-
-        // case "mutate" :
-        // console.log('mutate', $target);
-        // $target.triggerHandler('mutate.zf.trigger');
-        //
-        // //make sure we don't get stuck in an infinite loop from sloppy codeing
-        // if ($target.index('[data-mutate]') == $("[data-mutate]").length-1) {
-        //   domMutationObserver();
-        // }
-        // break;
-
-        default:
-          return false;
-        //nothing
-      }
-    };
-
-    if (nodes.length) {
-      //for each element that needs to listen for resizing, scrolling, (or coming soon mutation) add a single observer
-      for (var i = 0; i <= nodes.length - 1; i++) {
-        var elementObserver = new MutationObserver(listeningElementsMutation);
-        elementObserver.observe(nodes[i], { attributes: true, childList: false, characterData: false, subtree: false, attributeFilter: ["data-events"] });
-      }
-    }
-  }
-
-  // ------------------------------------
-
-  // [PH]
-  // Foundation.CheckWatchers = checkWatchers;
-  Foundation.IHearYou = checkListeners;
-  // Foundation.ISeeYou = scrollListener;
-  // Foundation.IFeelYou = closemeListener;
-}(jQuery);
-
-// function domMutationObserver(debounce) {
-//   // !!! This is coming soon and needs more work; not active  !!! //
-//   var timer,
-//   nodes = document.querySelectorAll('[data-mutate]');
-//   //
-//   if (nodes.length) {
-//     // var MutationObserver = (function () {
-//     //   var prefixes = ['WebKit', 'Moz', 'O', 'Ms', ''];
-//     //   for (var i=0; i < prefixes.length; i++) {
-//     //     if (prefixes[i] + 'MutationObserver' in window) {
-//     //       return window[prefixes[i] + 'MutationObserver'];
-//     //     }
-//     //   }
-//     //   return false;
-//     // }());
-//
-//
-//     //for the body, we need to listen for all changes effecting the style and class attributes
-//     var bodyObserver = new MutationObserver(bodyMutation);
-//     bodyObserver.observe(document.body, { attributes: true, childList: true, characterData: false, subtree:true, attributeFilter:["style", "class"]});
-//
-//
-//     //body callback
-//     function bodyMutation(mutate) {
-//       //trigger all listening elements and signal a mutation event
-//       if (timer) { clearTimeout(timer); }
-//
-//       timer = setTimeout(function() {
-//         bodyObserver.disconnect();
-//         $('[data-mutate]').attr('data-events',"mutate");
-//       }, debounce || 150);
-//     }
-//   }
-// }
 'use strict';
 
 !function ($) {
@@ -1768,6 +1525,249 @@
 */
 'use strict';
 
+!function ($) {
+
+  var MutationObserver = function () {
+    var prefixes = ['WebKit', 'Moz', 'O', 'Ms', ''];
+    for (var i = 0; i < prefixes.length; i++) {
+      if (prefixes[i] + 'MutationObserver' in window) {
+        return window[prefixes[i] + 'MutationObserver'];
+      }
+    }
+    return false;
+  }();
+
+  var triggers = function (el, type) {
+    el.data(type).split(' ').forEach(function (id) {
+      $('#' + id)[type === 'close' ? 'trigger' : 'triggerHandler'](type + '.zf.trigger', [el]);
+    });
+  };
+  // Elements with [data-open] will reveal a plugin that supports it when clicked.
+  $(document).on('click.zf.trigger', '[data-open]', function () {
+    triggers($(this), 'open');
+  });
+
+  // Elements with [data-close] will close a plugin that supports it when clicked.
+  // If used without a value on [data-close], the event will bubble, allowing it to close a parent component.
+  $(document).on('click.zf.trigger', '[data-close]', function () {
+    var id = $(this).data('close');
+    if (id) {
+      triggers($(this), 'close');
+    } else {
+      $(this).trigger('close.zf.trigger');
+    }
+  });
+
+  // Elements with [data-toggle] will toggle a plugin that supports it when clicked.
+  $(document).on('click.zf.trigger', '[data-toggle]', function () {
+    triggers($(this), 'toggle');
+  });
+
+  // Elements with [data-closable] will respond to close.zf.trigger events.
+  $(document).on('close.zf.trigger', '[data-closable]', function (e) {
+    e.stopPropagation();
+    var animation = $(this).data('closable');
+
+    if (animation !== '') {
+      Foundation.Motion.animateOut($(this), animation, function () {
+        $(this).trigger('closed.zf');
+      });
+    } else {
+      $(this).fadeOut().trigger('closed.zf');
+    }
+  });
+
+  $(document).on('focus.zf.trigger blur.zf.trigger', '[data-toggle-focus]', function () {
+    var id = $(this).data('toggle-focus');
+    $('#' + id).triggerHandler('toggle.zf.trigger', [$(this)]);
+  });
+
+  /**
+  * Fires once after all other scripts have loaded
+  * @function
+  * @private
+  */
+  $(window).on('load', function () {
+    checkListeners();
+  });
+
+  function checkListeners() {
+    eventsListener();
+    resizeListener();
+    scrollListener();
+    closemeListener();
+  }
+
+  //******** only fires this function once on load, if there's something to watch ********
+  function closemeListener(pluginName) {
+    var yetiBoxes = $('[data-yeti-box]'),
+        plugNames = ['dropdown', 'tooltip', 'reveal'];
+
+    if (pluginName) {
+      if (typeof pluginName === 'string') {
+        plugNames.push(pluginName);
+      } else if (typeof pluginName === 'object' && typeof pluginName[0] === 'string') {
+        plugNames.concat(pluginName);
+      } else {
+        console.error('Plugin names must be strings');
+      }
+    }
+    if (yetiBoxes.length) {
+      var listeners = plugNames.map(function (name) {
+        return 'closeme.zf.' + name;
+      }).join(' ');
+
+      $(window).off(listeners).on(listeners, function (e, pluginId) {
+        var plugin = e.namespace.split('.')[0];
+        var plugins = $('[data-' + plugin + ']').not('[data-yeti-box="' + pluginId + '"]');
+
+        plugins.each(function () {
+          var _this = $(this);
+
+          _this.triggerHandler('close.zf.trigger', [_this]);
+        });
+      });
+    }
+  }
+
+  function resizeListener(debounce) {
+    var timer = void 0,
+        $nodes = $('[data-resize]');
+    if ($nodes.length) {
+      $(window).off('resize.zf.trigger').on('resize.zf.trigger', function (e) {
+        if (timer) {
+          clearTimeout(timer);
+        }
+
+        timer = setTimeout(function () {
+
+          if (!MutationObserver) {
+            //fallback for IE 9
+            $nodes.each(function () {
+              $(this).triggerHandler('resizeme.zf.trigger');
+            });
+          }
+          //trigger all listening elements and signal a resize event
+          $nodes.attr('data-events', "resize");
+        }, debounce || 10); //default time to emit resize event
+      });
+    }
+  }
+
+  function scrollListener(debounce) {
+    var timer = void 0,
+        $nodes = $('[data-scroll]');
+    if ($nodes.length) {
+      $(window).off('scroll.zf.trigger').on('scroll.zf.trigger', function (e) {
+        if (timer) {
+          clearTimeout(timer);
+        }
+
+        timer = setTimeout(function () {
+
+          if (!MutationObserver) {
+            //fallback for IE 9
+            $nodes.each(function () {
+              $(this).triggerHandler('scrollme.zf.trigger');
+            });
+          }
+          //trigger all listening elements and signal a scroll event
+          $nodes.attr('data-events', "scroll");
+        }, debounce || 10); //default time to emit scroll event
+      });
+    }
+  }
+
+  function eventsListener() {
+    if (!MutationObserver) {
+      return false;
+    }
+    var nodes = document.querySelectorAll('[data-resize], [data-scroll], [data-mutate]');
+
+    //element callback
+    var listeningElementsMutation = function (mutationRecordsList) {
+      var $target = $(mutationRecordsList[0].target);
+      //trigger the event handler for the element depending on type
+      switch ($target.attr("data-events")) {
+
+        case "resize":
+          $target.triggerHandler('resizeme.zf.trigger', [$target]);
+          break;
+
+        case "scroll":
+          $target.triggerHandler('scrollme.zf.trigger', [$target, window.pageYOffset]);
+          break;
+
+        // case "mutate" :
+        // console.log('mutate', $target);
+        // $target.triggerHandler('mutate.zf.trigger');
+        //
+        // //make sure we don't get stuck in an infinite loop from sloppy codeing
+        // if ($target.index('[data-mutate]') == $("[data-mutate]").length-1) {
+        //   domMutationObserver();
+        // }
+        // break;
+
+        default:
+          return false;
+        //nothing
+      }
+    };
+
+    if (nodes.length) {
+      //for each element that needs to listen for resizing, scrolling, (or coming soon mutation) add a single observer
+      for (var i = 0; i <= nodes.length - 1; i++) {
+        var elementObserver = new MutationObserver(listeningElementsMutation);
+        elementObserver.observe(nodes[i], { attributes: true, childList: false, characterData: false, subtree: false, attributeFilter: ["data-events"] });
+      }
+    }
+  }
+
+  // ------------------------------------
+
+  // [PH]
+  // Foundation.CheckWatchers = checkWatchers;
+  Foundation.IHearYou = checkListeners;
+  // Foundation.ISeeYou = scrollListener;
+  // Foundation.IFeelYou = closemeListener;
+}(jQuery);
+
+// function domMutationObserver(debounce) {
+//   // !!! This is coming soon and needs more work; not active  !!! //
+//   var timer,
+//   nodes = document.querySelectorAll('[data-mutate]');
+//   //
+//   if (nodes.length) {
+//     // var MutationObserver = (function () {
+//     //   var prefixes = ['WebKit', 'Moz', 'O', 'Ms', ''];
+//     //   for (var i=0; i < prefixes.length; i++) {
+//     //     if (prefixes[i] + 'MutationObserver' in window) {
+//     //       return window[prefixes[i] + 'MutationObserver'];
+//     //     }
+//     //   }
+//     //   return false;
+//     // }());
+//
+//
+//     //for the body, we need to listen for all changes effecting the style and class attributes
+//     var bodyObserver = new MutationObserver(bodyMutation);
+//     bodyObserver.observe(document.body, { attributes: true, childList: true, characterData: false, subtree:true, attributeFilter:["style", "class"]});
+//
+//
+//     //body callback
+//     function bodyMutation(mutate) {
+//       //trigger all listening elements and signal a mutation event
+//       if (timer) { clearTimeout(timer); }
+//
+//       timer = setTimeout(function() {
+//         bodyObserver.disconnect();
+//         $('[data-mutate]').attr('data-events',"mutate");
+//       }, debounce || 150);
+//     }
+//   }
+// }
+'use strict';
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1787,9 +1787,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {Object} element - jQuery object to add the trigger to.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function Abide(element) {
-      var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       _classCallCheck(this, Abide);
 
@@ -2389,7 +2388,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {jQuery} element - jQuery object to make into an accordion.
      * @param {Object} options - a plain object with settings to override the default options.
      */
-
     function Accordion(element, options) {
       _classCallCheck(this, Accordion);
 
@@ -2640,7 +2638,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {jQuery} element - jQuery object to make into an accordion menu.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function AccordionMenu(element, options) {
       _classCallCheck(this, AccordionMenu);
 
@@ -2945,7 +2942,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {jQuery} element - jQuery object to make into an accordion menu.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function Drilldown(element, options) {
       _classCallCheck(this, Drilldown);
 
@@ -3366,7 +3362,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      *        Object should be of the dropdown panel, rather than its anchor.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function Dropdown(element, options) {
       _classCallCheck(this, Dropdown);
 
@@ -3816,7 +3811,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {jQuery} element - jQuery object to make into a dropdown menu.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function DropdownMenu(element, options) {
       _classCallCheck(this, DropdownMenu);
 
@@ -4288,7 +4282,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {Object} element - jQuery object to add the trigger to.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function Equalizer(element, options) {
       _classCallCheck(this, Equalizer);
 
@@ -4654,7 +4647,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {Object} element - jQuery object to add the trigger to.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function Interchange(element, options) {
       _classCallCheck(this, Interchange);
 
@@ -4879,7 +4871,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {Object} element - jQuery object to add the trigger to.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function Magellan(element, options) {
       _classCallCheck(this, Magellan);
 
@@ -5143,7 +5134,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {Object} element - jQuery object to initialize.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function OffCanvas(element, options) {
       _classCallCheck(this, OffCanvas);
 
@@ -5599,7 +5589,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     * @param {jQuery} element - jQuery object to make into an Orbit Carousel.
     * @param {Object} options - Overrides to the default plugin settings.
     */
-
     function Orbit(element, options) {
       _classCallCheck(this, Orbit);
 
@@ -5879,8 +5868,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.options.infiniteWrap ? $curSlide.next('.' + this.options.slideClass).length ? $curSlide.next('.' + this.options.slideClass) : $firstSlide : $curSlide.next('.' + this.options.slideClass) : //pick next slide if moving left to right
           this.options.infiniteWrap ? $curSlide.prev('.' + this.options.slideClass).length ? $curSlide.prev('.' + this.options.slideClass) : $lastSlide : $curSlide.prev('.' + this.options.slideClass); //pick prev slide if moving right to left
         } else {
-            $newSlide = chosenSlide;
-          }
+          $newSlide = chosenSlide;
+        }
 
         if ($newSlide.length) {
           /**
@@ -5907,12 +5896,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               //do stuff?
             });
           } else {
-              $curSlide.removeClass('is-active is-in').removeAttr('aria-live').hide();
-              $newSlide.addClass('is-active is-in').attr('aria-live', 'polite').show();
-              if (this.options.autoPlay && !this.timer.isPaused) {
-                this.timer.restart();
-              }
+            $curSlide.removeClass('is-active is-in').removeAttr('aria-live').hide();
+            $newSlide.addClass('is-active is-in').attr('aria-live', 'polite').show();
+            if (this.options.autoPlay && !this.timer.isPaused) {
+              this.timer.restart();
             }
+          }
           /**
           * Triggers when the slide has finished animating in.
           * @event Orbit#slidechange
@@ -6093,7 +6082,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {jQuery} element - jQuery object to make into a dropdown menu.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function ResponsiveMenu(element, options) {
       _classCallCheck(this, ResponsiveMenu);
 
@@ -6260,7 +6248,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {jQuery} element - jQuery object to attach tab bar functionality to.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function ResponsiveToggle(element, options) {
       _classCallCheck(this, ResponsiveToggle);
 
@@ -6405,7 +6392,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {jQuery} element - jQuery object to use for the modal.
      * @param {Object} options - optional parameters.
      */
-
     function Reveal(element, options) {
       _classCallCheck(this, Reveal);
 
@@ -7028,7 +7014,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {jQuery} element - jQuery object to make into an accordion menu.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function Slider(element, options) {
       _classCallCheck(this, Slider);
 
@@ -7189,7 +7174,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           dim,
 
           //percentage w/h of the handle compared to the slider bar
-          handlePct = ~ ~(percent(handleDim, elemDim) * 100);
+          handlePct = ~~(percent(handleDim, elemDim) * 100);
           //if left handle, the math is slightly different than if it's the right handle, and the left/top property needs to be changed for the fill bar
           if (isLeftHndl) {
             //left or top percentage value to apply to the fill bar.
@@ -7202,12 +7187,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               cb();
             } //this is only needed for the initialization of 2 handled sliders
           } else {
-              //just caching the value of the left/bottom handle's left/top property
-              var handlePos = parseFloat(this.$handle[0].style[lOrT]);
-              //calculate the new min-height/width for the fill bar. Use isNaN to prevent false positives for numbers <= 0
-              //based on the percentage of movement of the handle being manipulated, less the opposing handle's left/top position, plus the percentage w/h of the handle itself
-              dim = movement - (isNaN(handlePos) ? this.options.initialStart / ((this.options.end - this.options.start) / 100) : handlePos) + handlePct;
-            }
+            //just caching the value of the left/bottom handle's left/top property
+            var handlePos = parseFloat(this.$handle[0].style[lOrT]);
+            //calculate the new min-height/width for the fill bar. Use isNaN to prevent false positives for numbers <= 0
+            //based on the percentage of movement of the handle being manipulated, less the opposing handle's left/top position, plus the percentage w/h of the handle itself
+            dim = movement - (isNaN(handlePos) ? this.options.initialStart / ((this.options.end - this.options.start) / 100) : handlePos) + handlePct;
+          }
           // assign the min-height/width to our css object
           css['min-' + hOrW] = dim + '%';
         }
@@ -7674,7 +7659,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {jQuery} element - jQuery object to make sticky.
      * @param {Object} options - options object passed when creating the element programmatically.
      */
-
     function Sticky(element, options) {
       _classCallCheck(this, Sticky);
 
@@ -8181,7 +8165,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {jQuery} element - jQuery object to make into tabs.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function Tabs(element, options) {
       _classCallCheck(this, Tabs);
 
@@ -8529,7 +8512,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {Object} element - jQuery object to add the trigger to.
      * @param {Object} options - Overrides to the default plugin settings.
      */
-
     function Toggler(element, options) {
       _classCallCheck(this, Toggler);
 
@@ -8696,7 +8678,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @param {jQuery} element - jQuery object to attach a tooltip to.
      * @param {Object} options - object to extend the default configuration.
      */
-
     function Tooltip(element, options) {
       _classCallCheck(this, Tooltip);
 
@@ -8961,11 +8942,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               //_this.hide();
               // _this.isClick = false;
             } else {
-                _this.isClick = true;
-                if ((_this.options.disableHover || !_this.$element.attr('tabindex')) && !_this.isActive) {
-                  _this.show();
-                }
+              _this.isClick = true;
+              if ((_this.options.disableHover || !_this.$element.attr('tabindex')) && !_this.isActive) {
+                _this.show();
               }
+            }
           });
         } else {
           this.$element.on('mousedown.zf.tooltip', function (e) {
