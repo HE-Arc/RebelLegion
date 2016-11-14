@@ -52,6 +52,8 @@
 				<div class="row">
 					<div class="small-12 medium-12 large-10 large-offset-1 columns game_info_desc">
 
+		<P>{{ App::getLocale() }}</p>
+
 
 
 						<div class="callout-header">Nouveaux costumes</div>

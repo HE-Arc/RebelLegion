@@ -26,7 +26,101 @@
 
     </head>
     <body>
+		<div id="page_header_id">
+			<img src="{{asset("img/baniere.png")}}" alt="baniere" width="100%" />
 
+			<div data-sticky-container>
+				<div class="top-bar sticky" data-sticky data-margin-top="0.5" style="width:100%">
+					<div class="top-bar-title">
+						<span data-responsive-toggle="responsive-menu" data-hide-for="medium">
+							<button class="menu-icon dark" type="button" data-toggle></button>
+						</span>
+					</div>
+					<div id="responsive-menu">
+
+						<div class="top-bar-left">
+							<ul class="dropdown menu" data-dropdown-menu>
+							  <li>
+  								<a id="menu_link_home" href="/">
+                    <i class="fi-home"></i>
+                    @lang('menus.home')
+                  </a>
+							  </li>
+							  <li>
+  								<a id="menu_link_costums" href="">
+                    <i class="fi-book"></i>
+                    @lang('menus.costumes')
+                  </a>
+							  </li>
+							  <li>
+								  <a id="menu_link_members" href="">
+                    <i class="fi-torsos-all"></i>
+                    @lang('menus.members')
+                  </a>
+							  </li>
+							  <li>
+								  <a id="menu_link_us" href="">
+                    <i class="fi-arrows-in"></i>
+                    @lang('menus.aboutUs')
+                  </a>
+							  </li>
+							</ul>
+						</div>
+
+
+						<div class="top-bar-right">
+							<ul class="dropdown menu" data-dropdown-menu>
+                <li class="language active">
+                  <a href="{{ route('setLanguage', ['locale' => 'en']) }}">en</a>
+                </li>
+							  <li class="language">
+								  <a href="{{ route('setLanguage', ['locale' => 'fr']) }}">fr</a>
+							  </li>
+							  <li class="language">
+								  <a href="{{ route('setLanguage', ['locale' => 'de']) }}">de</a>
+							  </li>
+                @if (Auth::guest())
+                    <li>
+                      <a id="menu_link_login" href="{{ url('/login') }}">
+                        <i class="fi-torso"></i>
+                        @lang('menus.login')
+                      </a>
+                    </li>
+                    <li>
+                      <a id="menu_link_register" href="{{ url('/register') }}">
+                        @lang('menus.register')
+                      </a>
+                    </li>
+                @else
+                    <li>
+                      <a href="#">
+                          {{ Auth::user()->name }}
+                      </a>
+                      <ul class="menu">
+                        <li>
+                          <a href="#">Mon compte</a>
+                        </li>
+                        <li>
+                          <a href="{{ url('/logout') }}"
+                              onclick="event.preventDefault();
+                                       document.getElementById('logout-form').submit();">
+                              @lang('menus.logout')
+                          </a>
+                        </li>
+
+                          <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                              {{ csrf_field() }}
+                          </form>
+
+                        <!-- ... -->
+                      </ul>
+                    </li>
+                @endif
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
       <div class="off-canvas-wrapper">
 			<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper="">
 				<!-- off-canvas title bar for 'small' screen -->
