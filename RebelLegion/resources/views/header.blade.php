@@ -26,100 +26,7 @@
 
     </head>
     <body>
-		<div id="page_header_id">
-			<img src="{{asset("img/baniere.png")}}" alt="baniere" width="100%" />
-
-			<div data-sticky-container>
-				<div class="top-bar sticky" data-sticky data-margin-top="0.5" style="width:100%">
-					<div class="top-bar-title">
-						<span data-responsive-toggle="responsive-menu" data-hide-for="medium">
-							<button class="menu-icon dark" type="button" data-toggle></button>
-						</span>
-					</div>
-					<div id="responsive-menu">
-
-						<div class="top-bar-left">
-							<ul class="dropdown menu" data-dropdown-menu>
-							  <li>
-  								<a id="menu_link_home" href="/">
-                    <i class="fi-home"></i>
-                    @lang('menus.home')
-                  </a>
-							  </li>
-							  <li>
-  								<a id="menu_link_costums" href="">
-                    <i class="fi-book"></i>
-                    @lang('menus.costumes')
-                  </a>
-							  </li>
-							  <li>
-								  <a id="menu_link_members" href="">
-                    <i class="fi-torsos-all"></i>
-                    @lang('menus.members')
-                  </a>
-							  </li>
-							  <li>
-								  <a id="menu_link_us" href="">
-                    <i class="fi-arrows-in"></i>
-                    @lang('menus.aboutUs')
-                  </a>
-							  </li>
-							</ul>
-						</div>
-
-
-						<div class="top-bar-right">
-							<ul class="dropdown menu" data-dropdown-menu>
-                @foreach (['en', 'fr', 'de'] as $ln)
-                  <li>
-                    <a href="{{ route('index', ['lang' => $ln]) }}">
-                      {{ trans('menus.' . $ln) }}
-                    </a>
-                  </li>
-                @endforeach
-
-                @if (Auth::guest())
-                    <li>
-                      <a id="menu_link_login" href="{{ url('/login') }}">
-                        <i class="fi-torso"></i>
-                        {{ trans('menus.login') }}
-                      </a>
-                    </li>
-                    <li>
-                      <a id="menu_link_register" href="{{ url('/register') }}">
-                        @lang('menus.register')
-                      </a>
-                    </li>
-                @else
-                    <li>
-                      <a href="#">
-                          {{ Auth::user()->name }}
-                      </a>
-                      <ul class="menu">
-                        <li>
-                          <a href="#">Mon compte</a>
-                        </li>
-                        <li>
-                          <a href="{{ url('/logout') }}"
-                              onclick="event.preventDefault();
-                                       document.getElementById('logout-form').submit();">
-                              @lang('menus.logout')
-                          </a>
-                        </li>
-
-                          <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                              {{ csrf_field() }}
-                          </form>
-
-                        <!-- ... -->
-                      </ul>
-                    </li>
-                @endif
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
+		
       <div class="off-canvas-wrapper">
 			<div class="off-canvas-wrapper-inner" data-off-canvas-wrapper="">
 				<!-- off-canvas title bar for 'small' screen -->
@@ -145,16 +52,28 @@
 	</button>
 	<ul class="rl-mobile-ofc vertical menu">
     <li class="topbar-title">
-      <a class="menu_link_home" href="{{url('/')}}">Home</a>
+    <a id="menu_link_home" href="/">
+      <i class="fi-home"></i>
+      @lang('menus.home')
+    </a>
     </li>
-    <li role="menuitem">
-      <a href="">Costumes</a>
+    <li>
+      <a id="menu_link_costums" href="">
+        <i class="fi-book"></i>
+        @lang('menus.costumes')
+      </a>
     </li>
-    <li role="menuitem">
-      <a href="">Membres</a>
+    <li>
+      <a id="menu_link_members" href="">
+        <i class="fi-torsos-all"></i>
+        @lang('menus.members')
+      </a>
     </li>
-    <li role="menuitem">
-      <a href="">A propos de nous</a>
+    <li>
+      <a id="menu_link_us" href="">
+        <i class="fi-arrows-in"></i>
+        @lang('menus.aboutUs')
+      </a>
     </li>
 	</ul>
 </div>
@@ -194,43 +113,54 @@
 		<div class="rl-topbar-container sticky" data-sticky="mxnz3e-sticky" data-top-anchor="rl-topbar-anchor:bottom" data-margin-top="0" data-resize="380f41-sticky" style="max-width: 1054.4px;" data-events="resize">
 			<nav class="rl-topbar">
 				<ul class="dropdown menu" data-dropdown-menu="lpdqu6-dropdown-menu" data-click-open="false" role="menubar">
-					<li class="topbar-title">
-						<a class="menu_link_home" href="{{url('/')}}">Home</a>
-					</li>
-          <li role="menuitem">
-            <a href="">Costumes</a>
+        <li class="topbar-title">
+        <a id="menu_link_home" href="/">
+          <i class="fi-home"></i>
+          @lang('menus.home')
+        </a>
+        </li>
+          <li>
+            <a id="menu_link_costums" href="">
+              <i class="fi-book"></i>
+              @lang('menus.costumes')
+            </a>
           </li>
-          <li role="menuitem">
-            <a href="">Membres</a>
+          <li>
+            <a id="menu_link_members" href="">
+              <i class="fi-torsos-all"></i>
+              @lang('menus.members')
+            </a>
           </li>
-          <li role="menuitem">
-            <a href="">A propos de nous</a>
+          <li>
+            <a id="menu_link_us" href="">
+              <i class="fi-arrows-in"></i>
+              @lang('menus.aboutUs')
+            </a>
           </li>
 				</ul>
 
         <ul class="dropdown menu" data-dropdown-menu="lpdqu6-dropdown-menu" data-click-open="false" role="menubar">
 
-
           <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
-            <a tabindex="0">
-                fr
+            <a tabindex="0" href="{{ route('index', ['lang' => 'fr']) }}">
+                {{ trans('menus.fr') }}
             </a>
             <ul class="submenu menu vertical is-dropdown-submenu first-sub no-min-width" >
               <li>
-                <a href="">
-                  de
+                <a href="{{ route('index', ['lang' => 'de']) }}">
+                  {{ trans('menus.de') }}
                 </a>
               </li>
               <li>
-                <a href="">
-                  en
+                <a href="{{ route('index', ['lang' => 'en']) }}">
+                  {{ trans('menus.en') }}
                 </a>
               </li>
 
             </ul>
           @if (Auth::guest())
-              <li><a class="menu_link_login" href="{{ url('/login') }}"><i class="fi-torso"></i> <span>Login</span></a></li>
-              <li><a class="menu_link_register" href="{{ url('/register') }}">Register</a></li>
+              <li><a class="menu_link_login" href="{{ url('/login') }}"><i class="fi-torso"></i> <span>{{ trans('menus.login') }}</span></a></li>
+              <li><a class="menu_link_register" href="{{ url('/register') }}">{{ trans('menus.register') }}</a></li>
           @else
               <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
                 <a tabindex="0">
@@ -244,7 +174,7 @@
                     <a href="{{ url('/logout') }}"
                         onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();">
-                        Logout
+                        {{ trans('menus.logout') }}
                     </a>
                   </li>
 
@@ -268,50 +198,48 @@
 
 
         <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
-          <a tabindex="0">
-              fr
-          </a>
-          <ul class="submenu menu vertical is-dropdown-submenu first-sub no-min-width" >
-            <li>
-              <a href="">
-                de
-              </a>
-            </li>
-            <li>
-              <a href="">
-                en
-              </a>
-            </li>
+            <a tabindex="0" href="{{ route('index', ['lang' => 'fr']) }}">
+                {{ trans('menus.fr') }}
+            </a>
+            <ul class="submenu menu vertical is-dropdown-submenu first-sub no-min-width" >
+              <li>
+                <a href="{{ route('index', ['lang' => 'de']) }}">
+                  {{ trans('menus.de') }}
+                </a>
+              </li>
+              <li>
+                <a href="{{ route('index', ['lang' => 'en']) }}">
+                  {{ trans('menus.en') }}
+                </a>
+              </li>
 
-          </ul>
-        @if (Auth::guest())
-            <li><a class="menu_link_login" href="{{ url('/login') }}"><i class="fi-torso"></i> <span>Login</span></a></li>
-            <li><a class="menu_link_register" href="{{ url('/register') }}">Register</a></li>
-        @else
-            <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
-              <a tabindex="0">
-                  {{ Auth::user()->name }}
-              </a>
-              <ul class="submenu menu vertical is-dropdown-submenu first-sub" >
-                <li>
-                  <a href="#">Mon compte</a>
-                </li>
-                <li>
-                  <a href="{{ url('/logout') }}"
-                      onclick="event.preventDefault();
-                               document.getElementById('logout-form').submit();">
-                      Logout
+            </ul>
+            @if (Auth::guest())
+                <li><a class="menu_link_login" href="{{ url('/login') }}"><i class="fi-torso"></i> <span>{{ trans('menus.login') }}</span></a></li>
+                <li><a class="menu_link_register" href="{{ url('/register') }}">{{ trans('menus.register') }}</a></li>
+            @else
+                <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
+                  <a tabindex="0">
+                      {{ Auth::user()->name }}
                   </a>
+                  <ul class="submenu menu vertical is-dropdown-submenu first-sub" >
+                    <li>
+                      <a href="#">Mon compte</a>
+                    </li>
+                    <li>
+                      <a href="{{ url('/logout') }}"
+                          onclick="event.preventDefault();
+                                   document.getElementById('logout-form').submit();">
+                          {{ trans('menus.logout') }}
+                      </a>
+                    </li>
+
+                      <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                          {{ csrf_field() }}
+                      </form>
+                  </ul>
                 </li>
-
-                  <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                      {{ csrf_field() }}
-                  </form>
-
-                <!-- ... -->
-              </ul>
-            </li>
-        @endif
+            @endif
       </ul>
     </div>
   </div>
