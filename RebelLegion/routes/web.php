@@ -15,12 +15,6 @@ Route::get('', function() {
     return redirect()->route('index', ['language' => App::getLocale()]);
 });
 
-
-// FIXME: à mettre dans Route::group
-Route::get('/contact', function () {
-    return view('contact');
-});
-
 Auth::routes();
 
 Route::group([
@@ -29,11 +23,10 @@ Route::group([
     'middleware' => 'locale'
 ], function() {
 
-    Route::get('/login', function () {
-        return view('login');
-    });
-
     Route::get('', ['as' => 'index', 'uses' => 'HomeController@index']);
 
+    Route::get('/contact', function () {
+        return view('contact');
+    })->name('contact');
 
 });

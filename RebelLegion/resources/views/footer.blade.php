@@ -13,9 +13,9 @@
 <div class="medium-6 large-4 columns">
 <h6 class="bot_title">Contact Swiss Outpost</h6>
 <ul class="bot_menu">
-<li><a href="{{url('/contact')}}">WebMaster</a></li>
-<li><a href="{{url('/contact')}}">Commanding Officier</a></li>
-<li><a href="{{url('/contact')}}">Executive Officier</a></li>
+<li><a href="{{ route('contact', App::getLocale() ) }}">WebMaster</a></li>
+<li><a href="{{ route('contact', App::getLocale() ) }}">Commanding Officier</a></li>
+<li><a href="{{ route('contact', App::getLocale() ) }}">Executive Officier</a></li>
 </ul>
 </div>
 <div class="medium-12 large-4 columns">
