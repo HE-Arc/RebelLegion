@@ -17,5 +17,8 @@ return [
     'aboutUs' => 'About us',
     'login' => 'Login',
     'register' => 'Register',
-    'logout' => 'Logout'
+    'logout' => 'Logout',
+    'en' => 'english',
+    'fr' => 'french',
+    'de' => 'deutsch'
 ];

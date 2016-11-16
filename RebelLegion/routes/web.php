@@ -11,20 +11,29 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('', function() {
+    return redirect()->route('index', ['language' => App::getLocale()]);
 });
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index');
-
+// FIXME: à mettre dans Route::group
 Route::get('/contact', function () {
     return view('contact');
 });
 
-Route::post('setLocale/{locale}', function ($locale) {
+Auth::routes();
 
-    App::setLocale($locale);
-    return redirect()->back();
-})->name('setLanguage');
+Route::group([
+    'prefix' => '{lang}',
+    'where' => ['lang' => '(fr|de|en)'],
+    'middleware' => 'locale'
+], function() {
+
+    Route::get('/login', function () {
+        return view('login');
+    });
+
+    Route::get('', ['as' => 'index', 'uses' => 'HomeController@index']);
+
+
+});

@@ -70,32 +70,19 @@
 
 						<div class="top-bar-right">
 							<ul class="dropdown menu" data-dropdown-menu>
-                <li class="language active">
-                  {{ Form::open(['method' => 'POST', 'route' => ['setLanguage', 'en'] ]) }}
-                    <button type="submit">
-                      en
-                    </button>
-                  {{ Form::close() }}
-                </li>
-							  <li class="language">
-                  {{ Form::open(['method' => 'POST', 'route' => ['setLanguage', 'fr'] ]) }}
-                    <button type="submit">
-                      fr
-                    </button>
-                  {{ Form::close() }}
-							  </li>
-							  <li class="language">
-                  {{ Form::open(['method' => 'POST', 'route' => ['setLanguage', 'de'] ]) }}
-                    <button type="submit">
-                      de
-                    </button>
-                  {{ Form::close() }}
-							  </li>
+                @foreach (['en', 'fr', 'de'] as $ln)
+                  <li>
+                    <a href="{{ route('index', ['lang' => $ln]) }}">
+                      {{ trans('menus.' . $ln) }}
+                    </a>
+                  </li>
+                @endforeach
+
                 @if (Auth::guest())
                     <li>
                       <a id="menu_link_login" href="{{ url('/login') }}">
                         <i class="fi-torso"></i>
-                        @lang('menus.login')
+                        {{ trans('menus.login') }}
                       </a>
                     </li>
                     <li>

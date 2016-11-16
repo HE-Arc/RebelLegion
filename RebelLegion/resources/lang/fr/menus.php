@@ -17,5 +17,8 @@ return [
     'aboutUs' => 'À propos de nous',
     'login' => 'Se connecter',
     'register' => "S'enregistrer",
-    'logout' => 'Se déconnecter'
+    'logout' => 'Se déconnecter',
+    'en' => 'anglais',
+    'fr' => 'français',
+    'de' => 'allemand'
 ];
