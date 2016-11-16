@@ -19,13 +19,12 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
-
 Route::get('/contact', function () {
     return view('contact');
 });
 
-Route::get('setLocale/{locale}', function ($locale) {
+Route::post('setLocale/{locale}', function ($locale) {
+
     App::setLocale($locale);
-    echo App::getLocale();
     return redirect()->back();
 })->name('setLanguage');

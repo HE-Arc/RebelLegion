@@ -71,13 +71,25 @@
 						<div class="top-bar-right">
 							<ul class="dropdown menu" data-dropdown-menu>
                 <li class="language active">
-                  <a href="{{ route('setLanguage', ['locale' => 'en']) }}">en</a>
+                  {{ Form::open(['method' => 'POST', 'route' => ['setLanguage', 'en'] ]) }}
+                    <button type="submit">
+                      en
+                    </button>
+                  {{ Form::close() }}
                 </li>
 							  <li class="language">
-								  <a href="{{ route('setLanguage', ['locale' => 'fr']) }}">fr</a>
+                  {{ Form::open(['method' => 'POST', 'route' => ['setLanguage', 'fr'] ]) }}
+                    <button type="submit">
+                      fr
+                    </button>
+                  {{ Form::close() }}
 							  </li>
 							  <li class="language">
-								  <a href="{{ route('setLanguage', ['locale' => 'de']) }}">de</a>
+                  {{ Form::open(['method' => 'POST', 'route' => ['setLanguage', 'de'] ]) }}
+                    <button type="submit">
+                      de
+                    </button>
+                  {{ Form::close() }}
 							  </li>
                 @if (Auth::guest())
                     <li>
