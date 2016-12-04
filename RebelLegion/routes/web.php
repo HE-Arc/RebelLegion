@@ -11,6 +11,9 @@
 |
 */
 
+use App\User;
+use Illuminate\Pagination\Paginator;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -22,3 +25,50 @@ Route::get('/home', 'HomeController@index');
 Route::get('/contact', function () {
     return view('contact');
 });
+
+Route::get('/costumes', function () {
+  $usersSmall = User::paginate(3);
+  $usersMedium = User::paginate(6);
+  $usersLarge = User::paginate(8);
+  //$users = User::all();
+
+
+  //soit on récupère la taille et quand celle-ci change on recharge (mieux?))
+  //Comment?
+
+return view('costumes', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge, "iii" => 1/*, 'users' => $users*/]);
+
+});
+
+Route::get('/members', function () {
+    //soit on fait 3 requêtes de paginate (pour les 3 tailles d'écran)
+    $usersSmall = App\User::paginate(9);
+    $usersMedium = App\User::paginate(24);
+    $usersLarge = App\User::paginate(40);
+
+
+    //soit on récupère la taille et quand celle-ci change on recharge (mieux?))
+    //Comment?
+
+    return view('members', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge]);
+});
+
+Route::get('/members/{id}', function ($id) {
+    return view('membercard', ['id' => $id]);
+});
+
+Route::get('/aboutus', function () {
+    return view('aboutus');
+});
+
+/*Route::group(['middleware' => 'auth'], function () {
+
+});*/
+
+Route::get('/account/tab{tab_id}',
+  function($tab_id) {
+    return view('account', ['tab_id' => $tab_id]);
+  }
+)->middleware('auth')->where(['tab_id' => '[1-3]']);
+
+Route::post('apply/upload', 'ApplyController@upload');

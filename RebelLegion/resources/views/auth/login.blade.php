@@ -15,9 +15,9 @@
 		        <input id="email" type="email" name="email" placeholder="monmail@exemple.com" value="{{ old('email') }}" required="required" aria-describedby="exampleHelpText">
 
 						@if ($errors->has('email'))
-								<span>
-				          <strong>{{ $errors->first('email') }}</strong>
-				        </span>
+								<label class="is-invalid-label">
+									{{ $errors->first('email') }}
+								</label>
 						@endif
 		      </label>
 
@@ -30,9 +30,9 @@
 						</a>
 
 						@if ($errors->has('password'))
-								<span>
-										<strong>{{ $errors->first('password') }}</strong>
-								</span>
+								<label class="is-invalid-label">
+									{{ $errors->first('password') }}
+								</label>
 						@endif
 					</div>
 					<p class="help-text" id="helpText">Les champs indiqués par une * sont obligatoires</p>
