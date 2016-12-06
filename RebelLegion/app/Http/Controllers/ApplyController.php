@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Input;
 use Validator;
 use Redirect;
 use Illuminate\Http\Request;
@@ -31,24 +30,24 @@ class ApplyController extends Controller {
     }
     else {
       // checking file is valid.
-      if (Input::file('image_upload')->isValid()) {
+      if ($request->file('image_upload')->isValid()) {
         $destinationPath = 'img/uploads'; // upload path
-        $extension = Input::file('image_upload')->getClientOriginalExtension(); // getting image extension
-        $fileName = rand(11111,99999).'.'.$extension; // renameing image
-        Input::file('image_upload')->move($destinationPath, $fileName); // uploading file to given path
+        $extension = $request->file('image_upload')->getClientOriginalExtension(); // getting image extension
+        $fileName = 'costume_'.time().'.'.$extension; // renameing image
+        $request->file('image_upload')->move($destinationPath, $fileName); // uploading file to given path
 
 
-        if(Input::hasFile('image_upload_secondary') && Input::file('image_upload_secondary')->isValid())
+        if($request->file('image_upload_secondary') && $request->file('image_upload_secondary')->isValid())
         {
           $destinationPath = 'img/uploads'; // upload path
-          $extension = Input::file('image_upload_secondary')->getClientOriginalExtension(); // getting image extension
-          $fileName = rand(11111,99999).'.'.$extension; // renameing image
-          Input::file('image_upload_secondary')->move($destinationPath, $fileName); // uploading file to given path
+          $extension = $request->file('image_upload_secondary')->getClientOriginalExtension(); // getting image extension
+          $fileName = 'costume2_'.time().'.'.$extension; // renameing image
+          $request->file('image_upload_secondary')->move($destinationPath, $fileName); // uploading file to given path
 
-          //save in database with secondary image
+          //TODO save in database with secondary image
         }
         else {
-          //save in database without secondary image
+          //TODO save in database without secondary image
         }
 
         // sending back with success message

@@ -39,90 +39,135 @@
 
 
             <div class="tabs-panel @if($tab_id == 1) is-active @endif" id="panel1v">
-              <div id="image-slider-costumes" class="row">
+
+              <div class="show-for-small-only row">
             		<div class="small-centered small-12 large-10 columns game_info_desc">
 
-
-            			<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
+            			<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit data-options="autoPlay: false">
             				<ul class="orbit-container">
+
             					<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
+
             					<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
-            					<li class="is-active orbit-slide">
-            						<div class="show-for-small-only row">
-            					    <div class="small-4 columns">
-            					      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Uranus.">
-            					    </div>
-            					    <div class="small-4 columns">
-            					      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Neptune.">
-            					    </div>
-            					    <div class="small-4 columns">
-            					      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Pluto.">
-            					    </div>
 
-            					  </div>
+                        @php
+                          $i=0;
+                        @endphp
+            						@while ($i <= 20)
+            							@if($i == 0)
+            								<li class="orbit-slide is-active">
+            							@else
+            								<li class="orbit-slide">
+            							@endif
 
-            						<div class="show-for-medium-only row">
-            					    <div class="medium-2 columns">
-            					      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Uranus.">
-            					    </div>
-            							<div class="medium-2 columns">
-            					      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Uranus.">
-            					    </div>
-            							<div class="medium-2 columns">
-            					      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Uranus.">
-            					    </div>
-            							<div class="medium-2 columns">
-            					      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Uranus.">
-            					    </div>
-            							<div class="medium-2 columns">
-            					      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Uranus.">
-            					    </div>
-            							<div class="medium-2 columns">
-            					      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Uranus.">
-            					    </div>
-            					  </div>
+            							<div class="row">
 
-            							<div class="show-for-large row">
-            								<div class="column-1of8 column">
-            						      <img class="thumbnail" src="http://placeimg.com/300/300/people" alt="Photo of Uranus.">
-            						    </div>
-            								<div class="column-1of8 column">
-            						      <img class="thumbnail" src="http://placeimg.com/200/300/people" alt="Photo of Uranus.">
-            						    </div>
-            								<div class="column-1of8 column">
-            						      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Uranus.">
-            						    </div>
-            								<div class="column-1of8 column">
-            						      <img class="thumbnail" src="http://placeimg.com/300/300/people" alt="Photo of Uranus.">
-            						    </div>
-            								<div class="column-1of8 column">
-            						      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Uranus.">
-            						    </div>
-            								<div class="column-1of8 column">
-            						      <img class="thumbnail" src="http://placeimg.com/300/300/people" alt="Photo of Uranus.">
-            						    </div>
-            								<div class="column-1of8 column">
-            						      <img class="thumbnail" src="http://placeimg.com/200/200/people" alt="Photo of Uranus.">
-            						    </div>
-            								<div class="column-1of8 column">
-            						      <img class="thumbnail" src="http://placeimg.com/300/300/people" alt="Photo of Uranus.">
-            						    </div>
+            							@for($j = 0; ($j < 3) and ($i <= 20); $j++)
+
+            								<div class="small-4 columns">
+            									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
+            								</div>
+
+            								@php
+            									$i++;
+            								@endphp
+
+            							@endfor
 
             							</div>
+            						</li>
 
-            					</li>
+            					@endwhile
+            					@php
+            						$i=0;
+            					@endphp
+
             				</ul>
+            			</div>
+            		</div>
+            	</div>
 
-            				<ul class="pagination text-center" role="navigation" aria-label="Pagination">
-            				  <li class="pagination-previous disabled">Previous</li>
-            				  <li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-            				  <li><a href="#" aria-label="Page 2">2</a></li>
-            				  <li><a href="#" aria-label="Page 3">3</a></li>
-            				  <li><a href="#" aria-label="Page 4">4</a></li>
-            				  <li class="ellipsis"></li>
-            				  <li><a href="#" aria-label="Page 12">12</a></li>
-            				  <li><a href="#" aria-label="Page 13">13</a></li>
-            				  <li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
+            	<div class="first-element show-for-medium-only row">
+            		<div class="small-centered small-12 large-10 columns game_info_desc">
+
+            			<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit data-options="autoPlay: false">
+            				<ul class="orbit-container">
+
+            					<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
+
+            					<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
+
+            						@while ($i <= 20)
+            							@if($i == 0)
+            								<li class="orbit-slide is-active">
+            							@else
+            								<li class="orbit-slide">
+            							@endif
+
+            							<div class="row">
+
+            							@for($j = 0; ($j < 6) and ($i <= 20); $j++)
+
+            								<div class="medium-2 columns">
+            									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
+            								</div>
+
+            								@php
+            									$i++;
+            								@endphp
+
+            							@endfor
+
+            							</div>
+            						</li>
+
+            					@endwhile
+            					@php
+            						$i=0;
+            					@endphp
+
+            				</ul>
+            			</div>
+
+            		</div>
+            	</div>
+
+            	<div class="first-element show-for-large row">
+            		<div class="small-centered small-12 large-10 columns game_info_desc">
+
+            			<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit data-options="autoPlay: false">
+
+            				<ul class="orbit-container">
+
+            					<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
+
+            					<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
+
+            						@while ($i <= 20)
+            							@if($i == 0)
+            								<li class="orbit-slide is-active">
+            							@else
+            								<li class="orbit-slide">
+            							@endif
+
+            							<div class="row">
+
+            							@for($j = 0; ($j < 8) and ($i <= 20); $j++)
+            								<div class="column-1of8 column">
+            									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
+            								</div>
+
+            								@php
+            									$i++;
+            								@endphp
+
+            							@endfor
+
+            							</div>
+            						</li>
+
+            					@endwhile
+
             				</ul>
             			</div>
 

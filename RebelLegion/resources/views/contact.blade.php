@@ -11,9 +11,10 @@
 							<div class="medium-12 columns">
 								<label for="contact_input_subject">Sujet
 									<select name="subject" id="contact_input_subject">
-										<option value="game" selected="selected">Le jeu</option>
+										<option value="game" selected="selected">Costume</option>
 										<option value="website">Le site</option>
 										<option value="dead link">Lien mort</option>
+										<option value="other">Autre</option>
 									</select>
 								</label>
 							</div>
@@ -50,8 +51,8 @@
 						<!-- CAPTCHA -->
 						<div class="row">
 							<div class="medium-12 columns">
-								<p>
-									</p><div class="g-recaptcha" data-sitekey="6LfdqwgUAAAAAFNaCQqGfjADiNqqI20EtqN4MVet"><div style="width: 304px; height: 78px;"><div><iframe src="https://www.google.com/recaptcha/api2/anchor?k=6LfdqwgUAAAAAFNaCQqGfjADiNqqI20EtqN4MVet&amp;co=aHR0cHM6Ly9tZXJjYXJpb25saW5lLmNvbTo0NDM.&amp;hl=fr&amp;v=r20161028135114&amp;size=normal&amp;cb=s8xwj6v94x3o" title="widget recaptcha" role="presentation" scrolling="no" name="undefined" width="304" height="78" frameborder="0"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;  display: none; "></textarea></div></div>
+								<p></p>
+									<div class="g-recaptcha" data-sitekey="6LfdqwgUAAAAAFNaCQqGfjADiNqqI20EtqN4MVet"><div style="width: 304px; height: 78px;"><div><iframe src="https://www.google.com/recaptcha/api2/anchor?k=6LfdqwgUAAAAAFNaCQqGfjADiNqqI20EtqN4MVet&amp;co=aHR0cHM6Ly9tZXJjYXJpb25saW5lLmNvbTo0NDM.&amp;hl=fr&amp;v=r20161028135114&amp;size=normal&amp;cb=s8xwj6v94x3o" title="widget recaptcha" role="presentation" scrolling="no" name="undefined" width="304" height="78" frameborder="0"></iframe></div><textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response" style="width: 250px; height: 40px; border: 1px solid #c1c1c1; margin: 10px 25px; padding: 0px; resize: none;  display: none; "></textarea></div></div>
 								<p></p>
 							</div>
 						</div>
@@ -60,7 +61,7 @@
 							<div class="medium-12 columns">
 								<p>
 									<button type="reset" class="button secondary">Annuler</button>
-									<button type="submit" class="button mercari">Envoyer</button>
+									<button type="submit" class="button primary">Envoyer</button>
 								</p>
 							</div>
 						</div>

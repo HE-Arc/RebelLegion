@@ -2,215 +2,139 @@
 
 @section('content')
 
-
-	<div id="image-slider-costumes" class="row">
+	<div class="first-element show-for-small-only row">
 		<div class="small-centered small-12 large-10 columns game_info_desc">
-			@while ($iii <= 20)
-				<li class="orbit-slide">
 
+			<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit data-options="autoPlay: false">
+				<ul class="orbit-container">
 
-					<div class="row">
+					<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
 
-					@while( (($iii%4) != 0) )
+					<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
 
-					{{($iii%4)}}
-						<div class="small-4 columns">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-							@php
-								$iii++;
-							@endphp
+						@while ($i <= 20)
+							@if($i == 0)
+								<li class="orbit-slide is-active">
+							@else
+								<li class="orbit-slide">
+							@endif
+
+							<div class="row">
+
+							@for($j = 0; ($j < 3) and ($i <= 20); $j++)
+
+								<div class="small-4 columns">
+									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
+								</div>
+
+								@php
+									$i++;
+								@endphp
+
+							@endfor
+
+							</div>
+						</li>
+
 					@endwhile
-					</div>
-				</li>
+					@php
+						$i=0;
+					@endphp
 
-
-			@endwhile
-				<div class="orbit show-for-small-only" role="region" aria-label="Favorite Space Pictures" data-orbit>
-					<ul class="orbit-container">
-
-
-						<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
-
-						<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-					</ul>
-
-
-
-					</div>
-
-
-
-				<div class="orbit show-for-medium-only" role="region" aria-label="Favorite Space Pictures" data-orbit>
-					<ul class="orbit-container">
-
-
-						<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
-
-						<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
-						<li class="is-active orbit-slide">
-
-							<div class="row">
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-							</div>
-
-						</li>
-
-						<li class="orbit-slide">
-
-							<div class="row">
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-								</div>
-							</div>
-
-						</li>
-					</ul>
-
-
-
-				</div>
-
-
-
-
-		<ul class="pagination text-center" role="navigation" aria-label="Pagination">
-			<li class="pagination-previous disabled">Previous</li>
-			<li class="current"><span class="show-for-sr">You're on page</span> 1</li>
-			<li><a href="#" aria-label="Page 2">2</a></li>
-			<li><a href="#" aria-label="Page 3">3</a></li>
-			<li><a href="#" aria-label="Page 4">4</a></li>
-			<li class="ellipsis"></li>
-			<li><a href="#" aria-label="Page 12">12</a></li>
-			<li><a href="#" aria-label="Page 13">13</a></li>
-			<li class="pagination-next"><a href="#" aria-label="Next page">Next</a></li>
-		</ul>
-
-		<div class="orbit show-for-large" role="region" aria-label="Favorite Space Pictures" data-orbit>
-			<ul class="orbit-container">
-
-
-				<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
-
-				<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
-				<li class="is-active orbit-slide">
-
-					<div class="row">
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-
-					</div>
-
-
-
-				</li>
-
-				<li class="orbit-slide">
-
-					<div class="row">
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-						<div class="column-1of8 column">
-							<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
-						</div>
-
-					</div>
-
-				</li>
-			</ul>
-
-
-
+				</ul>
+			</div>
+		</div>
 	</div>
 
+	<div class="first-element show-for-medium-only row">
+		<div class="small-centered small-12 large-10 columns game_info_desc">
+
+			<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit data-options="autoPlay: false">
+				<ul class="orbit-container">
+
+					<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
+
+					<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
+
+						@while ($i <= 20)
+							@if($i == 0)
+								<li class="orbit-slide is-active">
+							@else
+								<li class="orbit-slide">
+							@endif
+
+							<div class="row">
+
+							@for($j = 0; ($j < 6) and ($i <= 20); $j++)
+
+								<div class="medium-2 columns">
+									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
+								</div>
+
+								@php
+									$i++;
+								@endphp
+
+							@endfor
+
+							</div>
+						</li>
+
+					@endwhile
+					@php
+						$i=0;
+					@endphp
+
+				</ul>
+			</div>
+
+		</div>
 	</div>
+
+	<div class="first-element show-for-large row">
+		<div class="small-centered small-12 large-10 columns game_info_desc">
+
+			<div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit data-options="autoPlay: false">
+
+				<ul class="orbit-container">
+
+					<button class="orbit-previous" aria-label="previous"><span class="show-for-sr">Previous Slide</span>&#9664;</button>
+
+					<button class="orbit-next" aria-label="next"><span class="show-for-sr">Next Slide</span>&#9654;</button>
+
+						@while ($i <= 20)
+							@if($i == 0)
+								<li class="orbit-slide is-active">
+							@else
+								<li class="orbit-slide">
+							@endif
+
+							<div class="row">
+
+							@for($j = 0; ($j < 8) and ($i <= 20); $j++)
+								<div class="column-1of8 column">
+									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
+								</div>
+
+								@php
+									$i++;
+								@endphp
+
+							@endfor
+
+							</div>
+						</li>
+
+					@endwhile
+
+				</ul>
+			</div>
+
+		</div>
+	</div>
+
+
+
 
 
 
@@ -250,12 +174,26 @@
 </div>
 
 <script>
-	$(document).ready(function(){
+	$(document).ready(function() {
 		$('.menu_link_costumes').parent().addClass('active');
+
 		//console.log(Foundation.MediaQuery.atLeast('large'));
-		//Pour savoir si on est au minimum en large
+
+
+		// Ci dessous, solution temporaire car la hauteur du slider "orbit"
+		// n'est pas recalculé dans la version 6.2.4 de Foundation
+		// Cela sera probablement corrigé dans la version 6.3
+		// En retestant sans la fonction ci-dessous, ça marche. Je
+		// la commente au cas ou
+		/*$(window).on('changed.zf.mediaquery', function () {
+				setTimeout("location.reload(true);",50);
+				//car avec un simple reload ça ne fonctionne pas
+		});*/
 
 	});
 </script>
+
+
+
 
 @endsection

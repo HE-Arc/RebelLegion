@@ -3,6 +3,7 @@
 /* --------- CSS ---------- */
 /* ------------------------ */
 
+/*pour que les champs invalides soit rouges*/
 :invalid {
   box-shadow: red;
 }
@@ -19,7 +20,17 @@
 	color: #00a200;
 }
 
+/* Ci dessous, solution temporaire car la hauteur du slider "orbit"
+  n'est pas recalculé dans la version 6.2.4 de Foundation
+  Cela sera probablement corrigé dans la version 6.3*/
+ul.orbit-container {
+    height: auto !important;
+}
+li.orbit-slide {
+    max-height: none !important;
+}
 
+/*pour le top comment tout en haut */
 .top-comment {
 	position: absolute;
 	top: 0;
@@ -36,6 +47,7 @@
 	text-transform: uppercase;
 }
 
+/*pour le mot de passe*/
 #show-password-icon
 {
 	font-size: 33px;
@@ -46,10 +58,12 @@
 	min-width: 0;
 }
 
-#image-slider-costumes{
+/*1er élément de contenu de la page*/
+.first-element{
 	padding-top: 1rem;
 }
 
+/*résoud un soucis de superposition */
 .sticky {
   z-index: 11; }
 

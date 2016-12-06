@@ -3,7 +3,7 @@
 @section('content')
 
 
-	<div class="row">
+	<div class="first-element row">
 		<div class="small-centered small-12 large-10 columns game_info_desc">
 
 						<!-- small -->
