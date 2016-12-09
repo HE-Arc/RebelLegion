@@ -64,7 +64,7 @@
 							</div>
 						</div>
 							<div class="callout">
-
+								<div class="media-object">
 								<div class="media-object stack-for-small">
 								  <div class="media-object-section">
 								    <img src= "http://placeimg.com/200/200/people">
