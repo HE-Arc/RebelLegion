@@ -1,16 +1,14 @@
 @extends('app')
 
 @section('content')
-<div class="container">
+
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+      <div class="small-12 small-centered medium-8 large-6 columns">
+        <div class="callout-header">Reset Password</div>
+        <div class="callout form">
 
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/password/reset') }}">
+                    <form  role="form" method="POST" action="{{ url('/password/reset') }}">
                         {{ csrf_field() }}
-
                         <input type="hidden" name="token" value="{{ $token }}">
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -61,10 +59,10 @@
                                 </button>
                             </div>
                         </div>
+
                     </form>
-                </div>
+
             </div>
         </div>
     </div>
-</div>
 @endsection

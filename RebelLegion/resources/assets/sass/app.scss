@@ -11,4 +11,8 @@
 // Foundation
 @import "node_modules/foundation-sites/scss/foundation";
 @import "settings";
-@include foundation-everything;
+@include foundation-everything
+
+.column-1of8 {
+  width: grid-column(1 of 8);
+}
