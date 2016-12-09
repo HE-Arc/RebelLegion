@@ -11,13 +11,16 @@
 |
 */
 
-Route::get('', function() {
-    return redirect()->route('index', ['language' => App::getLocale()]);
 use App\User;
 use Illuminate\Pagination\Paginator;
+
+Route::get('', function() {
+    return redirect()->route('index', ['language' => App::getLocale()]);
 });
 
 Auth::routes();
+
+Route::get('/home', 'HomeController@index');
 
 Route::group([
     'prefix' => '{lang}',
@@ -27,47 +30,48 @@ Route::group([
 
     Route::get('', ['as' => 'index', 'uses' => 'HomeController@index']);
 
+
+
     Route::get('/contact', function () {
         return view('contact');
     })->name('contact');
 
+    Route::get('/costumes', function () {
+      $usersSmall = User::paginate(3);
+      $usersMedium = User::paginate(6);
+      $usersLarge = User::paginate(8);
+      $users = User::take(30)->get(); //On n'en prend que 30 pour les tests, sinon faire User::all()
+
+      //dd($users[1]['id'], $users[2], count($users));
+
+      //soit on récupère la taille et quand celle-ci change on recharge (mieux?))
+      //Comment?
+
+    return view('costumes', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge, "i" => 0/*, 'users' => $users*/]);
+
+  })->name('costumes');
+
+  Route::get('/members', function () {
+      //soit on fait 3 requêtes de paginate (pour les 3 tailles d'écran)
+      $usersSmall = User::paginate(9);
+      $usersMedium = User::paginate(24);
+      $usersLarge = User::paginate(40);
+
+
+      //soit on récupère la taille et quand celle-ci change on recharge (mieux?))
+      //Comment?
+
+      return view('members', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge]);
+  })->name('members');
+
+  Route::get('/aboutus', function () {
+      return view('aboutus');
+  })->name('aboutus');
+
+  //Route::get('/home', 'HomeController@index')->name('home');
+
 });
 
-Route::get('/costumes', function () {
-  $usersSmall = User::paginate(3);
-  $usersMedium = User::paginate(6);
-  $usersLarge = User::paginate(8);
-  $users = User::take(30)->get(); //On n'en prend que 30 pour les tests, sinon faire User::all()
-
-  //dd($users[1]['id'], $users[2], count($users));
-
-  //soit on récupère la taille et quand celle-ci change on recharge (mieux?))
-  //Comment?
-
-return view('costumes', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge, "i" => 0/*, 'users' => $users*/]);
-
-});
-
-Route::get('/members', function () {
-    //soit on fait 3 requêtes de paginate (pour les 3 tailles d'écran)
-    $usersSmall = User::paginate(9);
-    $usersMedium = User::paginate(24);
-    $usersLarge = User::paginate(40);
-
-
-    //soit on récupère la taille et quand celle-ci change on recharge (mieux?))
-    //Comment?
-
-    return view('members', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge]);
-});
-
-Route::get('/members/{id}', function ($id) {
-    return view('membercard', ['id' => $id]);
-});
-
-Route::get('/aboutus', function () {
-    return view('aboutus');
-});
 
 /*Route::group(['middleware' => 'auth'], function () {
 
