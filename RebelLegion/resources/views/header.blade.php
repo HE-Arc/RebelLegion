@@ -145,8 +145,8 @@
 
                             </ul>
                             @if (Auth::guest())
-                            <li><a class="menu_link_login" href="{{ url('/login') }}"><i class="fi-torso"></i> <span>{{ trans('menus.login') }}</span></a></li>
-                            <li><a class="menu_link_register" href="{{ url('/register') }}">{{ trans('menus.register') }}</a></li>
+                            <li><a class="menu_link_login" href="{{ route('login', ['lang' => App::getLocale() ] ) }}"><i class="fi-torso"></i> <span>{{ trans('menus.login') }}</span></a></li>
+                            <li><a class="menu_link_register" href="{{ route('register', ['lang' => App::getLocale() ] ) }}">{{ trans('menus.register') }}</a></li>
                             @else
                             <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
                               <a tabindex="0">

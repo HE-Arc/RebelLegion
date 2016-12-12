@@ -18,8 +18,6 @@ Route::get('', function() {
     return redirect()->route('index', ['language' => App::getLocale()]);
 });
 
-Auth::routes();
-
 Route::get('/home', 'HomeController@index');
 
 Route::group([
@@ -28,9 +26,9 @@ Route::group([
     'middleware' => 'locale'
 ], function() {
 
+    Auth::routes();
+
     Route::get('', ['as' => 'index', 'uses' => 'HomeController@index']);
-
-
 
     Route::get('/contact', function () {
         return view('contact');
