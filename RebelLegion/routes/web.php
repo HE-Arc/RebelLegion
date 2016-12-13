@@ -30,6 +30,8 @@ Route::group([
 
     Route::get('', ['as' => 'index', 'uses' => 'HomeController@index']);
 
+    Route::resource('users', 'UserController');
+
     Route::get('/contact', function () {
         return view('contact');
     })->name('contact');
@@ -49,18 +51,18 @@ Route::group([
 
   })->name('costumes');
 
-  Route::get('/members', function () {
+  // Route::get('/members', function () {
       //soit on fait 3 requêtes de paginate (pour les 3 tailles d'écran)
-      $usersSmall = User::paginate(9);
-      $usersMedium = User::paginate(24);
-      $usersLarge = User::paginate(40);
+      // $usersSmall = User::paginate(9);
+      // $usersMedium = User::paginate(24);
+      // $usersLarge = User::paginate(40);
 
 
       //soit on récupère la taille et quand celle-ci change on recharge (mieux?))
       //Comment?
 
-      return view('members', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge]);
-  })->name('members');
+  //     return view('members', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge]);
+  // })->name('members');
 
   Route::get('/aboutus', function () {
       return view('aboutus');

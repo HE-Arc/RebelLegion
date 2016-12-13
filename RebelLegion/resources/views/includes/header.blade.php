@@ -17,7 +17,7 @@
        </a>
      </li>
      <li role="menuitem">
-       <a id="menu_link_members" href="{{ route('members', App::getLocale() ) }}">
+       <a id="menu_link_users" href="{{ route('users.index', App::getLocale() ) }}">
          <i class="fi-torsos-all"></i>
          @lang('menus.members')
        </a>
@@ -67,7 +67,7 @@
              </a>
            </li>
            <li role="menuitem">
-             <a id="menu_link_members" href="{{ route('members', App::getLocale() ) }}">
+             <a id="menu_link_members" href="{{ route('users.index', App::getLocale() ) }}">
                <i class="fi-torsos-all"></i>
                @lang('menus.members')
              </a>
@@ -83,17 +83,22 @@
 
          <ul class="dropdown menu" data-dropdown-menu="lpdqu6-dropdown-menu" data-click-open="false" role="menubar">
            <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
-             <a tabindex="0" href="{{ route('index', ['lang' => 'fr']) }}">
-               {{ trans('menus.fr') }}
+             <a tabindex="0" href="#">
+               {{ trans('menus.chooseLanguage') }}
              </a>
              <ul class="submenu menu vertical is-dropdown-submenu first-sub" >
                <li>
-                 <a href="{{ route('index', ['lang' => 'de']) }}">
+                 <a tabindex="0" href="{{ route( Route::currentRouteName(), ['lang' => 'fr']) }}">
+                   {{ trans('menus.fr') }}
+                 </a>
+               </li>
+               <li>
+                 <a href="{{ route( Route::currentRouteName(), ['lang' => 'de']) }}">
                    {{ trans('menus.de') }}
                  </a>
                </li>
                <li>
-                 <a href="{{ route('index', ['lang' => 'en']) }}">
+                 <a href="{{ route( Route::currentRouteName(), ['lang' => 'en']) }}">
                    {{ trans('menus.en') }}
                  </a>
                </li>

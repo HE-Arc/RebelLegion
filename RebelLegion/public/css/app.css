@@ -3578,3 +3578,7 @@ table.hover tbody tr:nth-of-type(even):hover {
   width: 12.5%; }
 
 /*# sourceMappingURL=app.css.map */
+.error {
+  background-color: red;
+  color: white;
+}

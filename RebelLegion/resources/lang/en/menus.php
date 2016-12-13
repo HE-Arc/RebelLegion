@@ -18,6 +18,7 @@ return [
     'login' => 'Login',
     'register' => 'Register',
     'logout' => 'Logout',
+    'chooseLanguage' => 'Choose language',
     'en' => 'english',
     'fr' => 'french',
     'de' => 'deutsch'
