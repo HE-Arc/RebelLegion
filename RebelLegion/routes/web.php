@@ -51,19 +51,6 @@ Route::group([
 
   })->name('costumes');
 
-  // Route::get('/members', function () {
-      //soit on fait 3 requêtes de paginate (pour les 3 tailles d'écran)
-      // $usersSmall = User::paginate(9);
-      // $usersMedium = User::paginate(24);
-      // $usersLarge = User::paginate(40);
-
-
-      //soit on récupère la taille et quand celle-ci change on recharge (mieux?))
-      //Comment?
-
-  //     return view('members', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge]);
-  // })->name('members');
-
   Route::get('/aboutus', function () {
       return view('aboutus');
   })->name('aboutus');

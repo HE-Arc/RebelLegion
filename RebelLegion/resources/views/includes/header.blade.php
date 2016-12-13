@@ -88,17 +88,29 @@
              </a>
              <ul class="submenu menu vertical is-dropdown-submenu first-sub" >
                <li>
+                @if( isset($user) )
+                  <a tabindex="0" href="{{ route( Route::currentRouteName(), ['lang' => 'fr', 'user' => $user->id]) }}">
+                @else
                  <a tabindex="0" href="{{ route( Route::currentRouteName(), ['lang' => 'fr']) }}">
+                @endif
                    {{ trans('menus.fr') }}
                  </a>
                </li>
                <li>
-                 <a href="{{ route( Route::currentRouteName(), ['lang' => 'de']) }}">
+                 @if( isset($user) )
+                   <a tabindex="0" href="{{ route( Route::currentRouteName(), ['lang' => 'de', 'user' => $user->id]) }}">
+                 @else
+                  <a tabindex="0" href="{{ route( Route::currentRouteName(), ['lang' => 'de']) }}">
+                 @endif
                    {{ trans('menus.de') }}
                  </a>
                </li>
                <li>
-                 <a href="{{ route( Route::currentRouteName(), ['lang' => 'en']) }}">
+                 @if( isset($user) )
+                   <a tabindex="0" href="{{ route( Route::currentRouteName(), ['lang' => 'en', 'user' => $user->id]) }}">
+                 @else
+                  <a tabindex="0" href="{{ route( Route::currentRouteName(), ['lang' => 'en']) }}">
+                 @endif
                    {{ trans('menus.en') }}
                  </a>
                </li>

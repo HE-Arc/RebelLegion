@@ -2,7 +2,11 @@
 
 @section('content')
 
-  <a href="{{ route('users.create', [ 'lang' => App::getLocale()] ) }}" class="button">@lang('forms_buttons_common.create')</a>
+  <div class="row">
+    <div class="large-1 large-centered medium-1 medium-centered small-1 small-centered columns">
+      <a href="{{ route('users.create', [ 'lang' => App::getLocale()] ) }}" class="button">@lang('forms_buttons_common.create')</a>
+    </div>
+  </div>
 
 	<div class="first-element row">
 		<div class="small-centered small-12 large-10 columns game_info_desc">

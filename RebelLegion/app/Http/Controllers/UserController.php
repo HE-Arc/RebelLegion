@@ -8,7 +8,7 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\View;
+use View;
 
 use App;
 use App\User;
@@ -53,13 +53,7 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-      $user = new User;
-      $user->userName = $request->userName;
-      $user->firstName = $request->firstName;
-      $user->lastName = $request->lastName;
-      $user->email = $request->email;
-      $user->password = $request->password;
-      $user->save();
+      $user = User::create($request->only('userName', 'firstName', 'lastName', 'email', 'password'));
       return redirect()->route('users.index', App::getLocale());
     }
 
@@ -71,15 +65,8 @@ class UserController extends Controller
      */
     public function show($locale, $id)
     {
-      $user = User::find($id);
-      if (!is_null($user))
-      {
-        return View::make('users.show')->with('user', $user);
-      }
-      else
-      {
-        App::abort(404);
-      }
+      $user = User::findOrFail($id);
+      return View::make('users.show')->with('user', $user);
     }
 
     /**
@@ -88,17 +75,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($locale, $id)
     {
-      $user = User::find($id);
-      if (!is_null($user))
-      {
-        return View::make('users.edit')->with('user', $user);
-      }
-      else
-      {
-        App::abort(404);
-      }
+      $user = User::findOrFail($id);
+      return View::make('users.edit')->with('user', $user);
     }
 
     /**
@@ -126,17 +106,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($locale, $id)
     {
-      $user = User::find($id);
-      if (!is_null($user))
-      {
-        $user->delete();
-      }
-      else
-      {
-        App::abort(404);
-      }
-      return redirect()->back();
+      $user = User::findOrFail($id);
+      $user->delete();
+      return redirect()->route('users.index', App::getLocale());
     }
 }

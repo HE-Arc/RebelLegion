@@ -3576,9 +3576,3 @@ table.hover tbody tr:nth-of-type(even):hover {
 
 .column-1of8 {
   width: 12.5%; }
-
-/*# sourceMappingURL=app.css.map */
-.error {
-  background-color: red;
-  color: white;
-}
