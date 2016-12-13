@@ -19,4 +19,9 @@ return [
     'throttle' => "Trop de tentatives de connexion. S'il vous plaît essayer
      de nouveau dans :seconds secondes.",
 
+     'login' => 'Se connecter',
+     'register' => "S'enregistrer",
+     'logout' => 'Se déconnecter',
+     'forgotPassword' => 'Mot de passe oublié?',
+     'resetPassword' => 'Réinitialisaer mot de passe'
 ];

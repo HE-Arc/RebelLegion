@@ -16,5 +16,6 @@ return [
     'lastName' => 'Nom',
     'email' => 'Addresse e-mail ',
     'password' => 'Mot de passe',
-    'passwordConfirmation' => 'Confirmez mot de passe'
+    'passwordConfirmation' => 'Confirmez mot de passe',
+    'rememberMe' => 'Se souvenir de moi'
 ];

@@ -16,5 +16,6 @@ return [
     'lastName' => 'Last name',
     'email' => 'E-mail address',
     'password' => 'Password',
-    'passwordConfirmation' => 'Confirm password'
+    'passwordConfirmation' => 'Confirm password',
+    'rememberMe' => 'Remember me'
 ];

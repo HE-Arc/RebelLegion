@@ -26,7 +26,13 @@ Route::group([
     'middleware' => 'locale'
 ], function() {
 
+
     Auth::routes();
+
+    Route::get('password/reset', 'Auth\ResetPasswordController@showResetForm')->name('passwordReset');
+    Route::post('password/reset', 'Auth\PasswordController@reset')->name('passwordReset');
+
+
 
     Route::get('', ['as' => 'index', 'uses' => 'HomeController@index']);
 

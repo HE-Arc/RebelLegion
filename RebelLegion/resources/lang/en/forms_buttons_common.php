@@ -10,6 +10,6 @@ return [
     'user' => 'User',
     'create' => 'Create',
     'edit' => 'Edit',
-    'delete' => 'Delete',
+    'delete' => 'Delete',  
     'submit' => 'Submit'
 ];
