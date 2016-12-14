@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html class="no-js" dir="ltr" lang="en">
+@php
+  $language = Session::get('lang', App::getLocale());
+@endphp
+<html class="no-js" dir="ltr" lang='{{$language}}'>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +14,6 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- Styles -->
-
     		<link rel="stylesheet" href="/css/foundation-icons.css" />
     		<link rel="stylesheet" href="/css/app.css" />
     		<link rel="stylesheet" href="/css/custom.css" />
@@ -23,9 +25,15 @@
 
         <!-- Scripts -->
         <script>
-            window.Laravel = <?php echo json_encode([
-                'csrfToken' => csrf_token(),
-            ]); ?>
+            window.Laravel =
+            @php
+              echo json_encode([
+                  'csrfToken' => csrf_token(),
+              ]);
+
+              session(['currentRouteName' => Route::currentRouteName()]);
+              session(['currentRouteParams' => Route::current()->parameters()]);
+            @endphp
         </script>
 
     		<script src="/js/jquery.js"></script>
@@ -37,11 +45,15 @@
 			     <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper="">
 				       <!-- off-canvas title bar for 'small' screen -->
 
-               <!--
+
                <div class="top-comment">
-                  projet laravel / he-arc / dev version
+                  {{ session('currentRouteName', 'default')  }}
+                  @foreach( session('currentRouteParams', 'default') as $key => $value)
+                   {{  $key }} {{ $value}}
+                  @endforeach
+                  {{$language}}
                </div>
-               -->
+
 
                <!-- off-canvas left menu -->
                <div class="rl-ofc off-canvas position-left" id="offCanvas" data-off-canvas="yzidu3-off-canvas" aria-hidden="true">
@@ -128,25 +140,25 @@
 
                         <ul class="dropdown menu" data-dropdown-menu="lpdqu6-dropdown-menu" data-click-open="false" role="menubar">
                           <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
-                            <a tabindex="0" href="{{ route('index', ['lang' => 'fr']) }}">
+                            <a tabindex="0" href="{{ route('langchange', ['lang' => 'fr']) }}">
                               {{ trans('menus.fr') }}
                             </a>
                             <ul class="submenu menu vertical is-dropdown-submenu first-sub" >
                               <li>
-                                <a href="{{ route('index', ['lang' => 'de']) }}">
+                                <a href="{{ route('langchange', ['lang' => 'de']) }}">
                                   {{ trans('menus.de') }}
                                 </a>
                               </li>
                               <li>
-                                <a href="{{ route('index', ['lang' => 'en']) }}">
+                                <a href="{{ route('langchange', ['lang' => 'en']) }}">
                                   {{ trans('menus.en') }}
                                 </a>
                               </li>
 
                             </ul>
                             @if (Auth::guest())
-                            <li><a class="menu_link_login" href="{{ url('/login') }}"><i class="fi-torso"></i> <span>{{ trans('menus.login') }}</span></a></li>
-                            <li><a class="menu_link_register" href="{{ url('/register') }}">{{ trans('menus.register') }}</a></li>
+                            <li><a class="menu_link_login" href="{{ route('login', App::getLocale()) }}"><i class="fi-torso"></i> <span>{{ trans('menus.login') }}</span></a></li>
+                            <li><a class="menu_link_register" href="{{ route('register', App::getLocale()) }}">{{ trans('menus.register') }}</a></li>
                             @else
                             <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
                               <a tabindex="0">
@@ -181,24 +193,24 @@
                       <div class="title-bar-right">
                         <ul class="dropdown menu" data-dropdown-menu="lpdqu6-dropdown-menu" data-click-open="false" role="menubar">
                           <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
-                            <a tabindex="0" href="{{ route('index', ['lang' => 'fr']) }}">
+                            <a tabindex="0" href="{{ route('langchange', ['lang' => 'fr']) }}">
                               {{ trans('menus.fr') }}
                             </a>
                             <ul class="submenu menu vertical is-dropdown-submenu first-sub" >
                               <li>
-                                <a href="{{ route('index', ['lang' => 'de']) }}">
+                                <a href="{{ route('langchange', ['lang' => 'de']) }}">
                                   {{ trans('menus.de') }}
                                 </a>
                               </li>
                               <li>
-                                <a href="{{ route('index', ['lang' => 'en']) }}">
+                                <a href="{{ route('langchange', ['lang' => 'en']) }}">
                                   {{ trans('menus.en') }}
                                 </a>
                               </li>
                             </ul>
                             @if (Auth::guest())
-                            <li><a class="menu_link_login" href="{{ url('/login') }}"><i class="fi-torso"></i> <span>{{ trans('menus.login') }}</span></a></li>
-                            <li><a class="menu_link_register" href="{{ url('/register') }}">{{ trans('menus.register') }}</a></li>
+                            <li><a class="menu_link_login" href="{{ url('login') }}"><i class="fi-torso"></i> <span>{{ trans('menus.login') }}</span></a></li>
+                            <li><a class="menu_link_register" href="{{ route('register', App::getLocale()) }}">{{ trans('menus.register') }}</a></li>
                             @else
                             <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
                               <a tabindex="0">
@@ -206,10 +218,10 @@
                               </a>
                               <ul class="submenu menu vertical is-dropdown-submenu first-sub" >
                                 <li>
-                                  <a href="{{url('/account/tab1')}}">Mon compte</a>
+                                  <a href="{{url('account/tab1')}}">Mon compte</a>
                                 </li>
                                 <li>
-                                  <a href="{{ url('/logout') }}"
+                                  <a href="{{ url('logout') }}"
                                       onclick="event.preventDefault();
                                                document.getElementById('logout-form').submit();">
                                       {{ trans('menus.logout') }}

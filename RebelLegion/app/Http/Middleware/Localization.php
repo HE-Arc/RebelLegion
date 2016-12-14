@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+
 use App;
 use Closure;
 use View;
+use Session;
 
 class Localization {
     public function handle($request, Closure $next) {
@@ -21,7 +23,7 @@ class Localization {
         }
 
         View::share('lang', $language);
-
+        Session::set('lang' , $language);
         return $next($request);
     }
 }

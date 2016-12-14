@@ -295,7 +295,7 @@
 
 
             <div class="tabs-panel  @if($tab_id == 3) is-active @endif" id="panel3v">
-              <p>En cours de développement</p>
+              <p>En cours de développement @lang('menus.members')</p>
             </div>
 
 
@@ -321,7 +321,7 @@
           tab_nb = 3;
         }
 
-        window.history.replaceState('', 'account-tab'+tab_nb, '/account/tab'+tab_nb);
+        window.history.replaceState('', 'account-tab'+tab_nb, '/'+'{{$lang}}'+'/account/tab'+tab_nb);
 
       });
 

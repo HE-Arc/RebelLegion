@@ -19,7 +19,8 @@
 						<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="Photo of Uranus.">
 
 						<p>Date d'inscription : </p>
-						<P>Id : {{$id}}</p>
+						<P>Id : {{$user['id']}}</p>
+							<p>Langue : {{App::getLocale()}} </p>
 					</div>
 					<div class="media-object-section">
 						<h4>Dreams feel real while we're in them.</h4>
