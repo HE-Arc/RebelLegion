@@ -26,9 +26,17 @@ Route::group([
     'middleware' => 'locale'
 ], function() {
 
+
     Auth::routes();
 
+    Route::get('password/reset', 'Auth\ResetPasswordController@showResetForm')->name('passwordReset');
+    Route::post('password/reset', 'Auth\PasswordController@reset')->name('passwordReset');
+
+
+
     Route::get('', ['as' => 'index', 'uses' => 'HomeController@index']);
+
+    Route::resource('users', 'UserController');
 
     Route::get('/contact', function () {
         return view('contact');
@@ -48,19 +56,6 @@ Route::group([
     return view('costumes', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge, "i" => 0/*, 'users' => $users*/]);
 
   })->name('costumes');
-
-  Route::get('/members', function () {
-      //soit on fait 3 requêtes de paginate (pour les 3 tailles d'écran)
-      $usersSmall = User::paginate(9);
-      $usersMedium = User::paginate(24);
-      $usersLarge = User::paginate(40);
-
-
-      //soit on récupère la taille et quand celle-ci change on recharge (mieux?))
-      //Comment?
-
-      return view('members', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge]);
-  })->name('members');
 
   Route::get('/aboutus', function () {
       return view('aboutus');

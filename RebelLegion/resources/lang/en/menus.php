@@ -15,9 +15,7 @@ return [
     'costumes' => 'Costumes',
     'members' => 'Members',
     'aboutUs' => 'About us',
-    'login' => 'Login',
-    'register' => 'Register',
-    'logout' => 'Logout',
+    'chooseLanguage' => 'Choose language',
     'en' => 'english',
     'fr' => 'french',
     'de' => 'deutsch'
