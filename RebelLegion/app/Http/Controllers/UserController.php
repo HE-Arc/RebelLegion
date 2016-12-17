@@ -24,14 +24,11 @@ class UserController extends Controller
     {
       //soit on fait 3 requêtes de paginate (pour les 3 tailles d'écran)
       $usersSmall = User::paginate(9);
-      $usersMedium = User::paginate(24);
-      $usersLarge = User::paginate(40);
 
 
       //soit on récupère la taille et quand celle-ci change on recharge (mieux?))
       //Comment?
-
-      return view('users.index', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge]);
+      return view('users.index', ['usersSmall' => $usersSmall]);
 
     }
 
