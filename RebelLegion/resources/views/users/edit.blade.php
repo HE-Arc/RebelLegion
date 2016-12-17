@@ -59,7 +59,7 @@
 
     <div class="row">
         <button type="submit" class="button">
-          @lang('forms_buttons_common.create')
+          @lang('forms_buttons_common.save')
         </button>
     </div>
 

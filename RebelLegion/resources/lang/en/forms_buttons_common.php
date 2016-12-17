@@ -8,8 +8,10 @@ return [
     |--------------------------------------------------------------------------
     */
     'user' => 'User',
+    'costume' => 'Costume',
     'create' => 'Create',
     'edit' => 'Edit',
-    'delete' => 'Delete',  
+    'save' => 'Save',
+    'delete' => 'Delete',
     'submit' => 'Submit'
 ];
