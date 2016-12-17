@@ -11,7 +11,7 @@
        </a>
      </li>
      <li role="menuitem">
-       <a id="menu_link_costums" href="{{ route('costumes', App::getLocale() ) }}">
+       <a id="menu_link_costums" href="{{ route('costumes.index', App::getLocale() ) }}">
          <i class="fi-book"></i>
          @lang('menus.costumes')
        </a>
@@ -61,7 +61,7 @@
              </a>
            </li>
            <li role="menuitem">
-             <a id="menu_link_costums" href="{{ route('costumes', App::getLocale() ) }}">
+             <a id="menu_link_costums" href="{{ route('costumes.index', App::getLocale() ) }}">
                <i class="fi-book"></i>
                @lang('menus.costumes')
              </a>
@@ -90,6 +90,8 @@
                <li>
                 @if( isset($user) )
                   <a href="{{ route( Route::currentRouteName(), ['lang' => 'fr', 'user' => $user->id]) }}">
+                @elseif( isset($costume) )
+                  <a href="{{ route( Route::currentRouteName(), ['lang' => 'fr', 'costume' => $costume->id]) }}">
                 @else
                  <a href="{{ route( Route::currentRouteName(), ['lang' => 'fr']) }}">
                 @endif
@@ -99,6 +101,8 @@
                <li>
                  @if( isset($user) )
                    <a href="{{ route( Route::currentRouteName(), ['lang' => 'de', 'user' => $user->id]) }}">
+                     @elseif( isset($costume) )
+                       <a href="{{ route( Route::currentRouteName(), ['lang' => 'de', 'costume' => $costume->id]) }}">
                  @else
                   <a href="{{ route( Route::currentRouteName(), ['lang' => 'de']) }}">
                  @endif
@@ -108,6 +112,8 @@
                <li>
                  @if( isset($user) )
                    <a href="{{ route( Route::currentRouteName(), ['lang' => 'en', 'user' => $user->id]) }}">
+                     @elseif( isset($costume) )
+                       <a href="{{ route( Route::currentRouteName(), ['lang' => 'en', 'costume' => $costume->id]) }}">
                  @else
                   <a href="{{ route( Route::currentRouteName(), ['lang' => 'en']) }}">
                  @endif

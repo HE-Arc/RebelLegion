@@ -4,16 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Requests\UserCreateRequest;
-use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\CostumeCreateRequest;
+use App\Http\Requests\CostumeUpdateRequest;
 
 use Illuminate\Pagination\Paginator;
 use View;
 
 use App;
-use App\User;
+use App\Costume;
 
-class UserController extends Controller
+class CostumeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,8 +22,8 @@ class UserController extends Controller
      */
     public function index()
     {
-      $usersSmall = User::paginate(9);
-      return view('users.index', ['usersSmall' => $usersSmall]);
+      $costumes = Costume::paginate(9);
+      return view('costumes.index', ['costumes' => $costumes]);
     }
 
     /**
@@ -33,7 +33,7 @@ class UserController extends Controller
      */
     public function create()
     {
-      return view('users.create');
+      return view('costumes.create');
     }
 
     /**
@@ -42,10 +42,10 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserCreateRequest $request)
+    public function store(CostumeCreateRequest $request)
     {
-      $user = User::create($request->only('userName', 'firstName', 'lastName', 'email', 'password'));
-      return redirect()->route('users.index', App::getLocale());
+      $costume = Costume::create($request->only('name', 'size'));
+      return redirect()->route('costumes.index', App::getLocale());
     }
 
     /**
@@ -56,8 +56,8 @@ class UserController extends Controller
      */
     public function show($locale, $id)
     {
-      $user = User::findOrFail($id);
-      return View::make('users.show')->with('user', $user);
+      $costume = Costume::findOrFail($id);
+      return View::make('costumes.show')->with('costume', $costume);
     }
 
     /**
@@ -68,8 +68,8 @@ class UserController extends Controller
      */
     public function edit($locale, $id)
     {
-      $user = User::findOrFail($id);
-      return View::make('users.edit')->with('user', $user);
+      $costume = Costume::findOrFail($id);
+      return View::make('costumes.edit')->with('costume', $costume);
     }
 
     /**
@@ -79,16 +79,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserUpdateRequest $request, $locale, $id)
+    public function update(CostumeUpdateRequest $request, $locale, $id)
     {
-      $user = User::findOrFail($id);
-      $user->userName = $request->userName;
-      $user->firstName = $request->firstName;
-      $user->lastName = $request->lastName;
-      $user->email = $request->email;
-      $user->password = $request->password;
-      $user->save();
-      return redirect()->route('users.index', App::getLocale());
+      $costume = Costume::findOrFail($id);
+      $costume->name = $request->name;
+      $costume->size = $request->size;
+      $costume->save();
+      return redirect()->route('costumes.index', App::getLocale());
     }
 
     /**
@@ -99,8 +96,8 @@ class UserController extends Controller
      */
     public function destroy($locale, $id)
     {
-      $user = User::findOrFail($id);
-      $user->delete();
-      return redirect()->route('users.index', App::getLocale());
+      $costume = Costume::findOrFail($id);
+      $costume->delete();
+      return redirect()->route('costumes.index', App::getLocale());
     }
 }
