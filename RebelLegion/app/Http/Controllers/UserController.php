@@ -6,15 +6,84 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\UserAddCostumeRequest;
 
 use Illuminate\Pagination\Paginator;
 use View;
 
 use App;
 use App\User;
+use App\Costume;
 
 class UserController extends Controller
 {
+
+    /**
+     * Show the form to add a costume to an user
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function addCostume($locale, $id)
+    {
+      $user = User::findOrFail($id);
+      $costumes = Costume::all();
+
+      $user_costumes = $user->costumes();
+
+      $plucked_costumes_IDS = $costumes->pluck('id');
+      $plucked_user_costumes_IDS = $user_costumes->pluck('costume_id');
+      $costumes_IDS = $plucked_costumes_IDS->diff($plucked_user_costumes_IDS);
+
+      $costumes = [];
+      if( count($costumes_IDS) > 0 )
+      {
+        foreach ($costumes_IDS as $costumes_ID)
+        {
+          array_push($costumes, Costume::find($costumes_ID));
+        }
+      }
+
+      return View::make('users.addCostume')
+                  ->with('costumes', $costumes)
+                  ->with('user', $user);
+    }
+
+    /**
+     * Store an existing costume to an user
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function storeCostume(UserAddCostumeRequest $request, $locale, $id)
+    {
+      echo $id.'</br>';
+      echo $request->name;
+      $user = User::findOrFail($id);
+      $costume = Costume::where('name', $request->name)->first();
+
+      $user->costumes()->attach($costume->id);
+
+      return redirect()->route('users.show', ['lang' => App::getLocale(), 'user' => $user->id]);
+    }
+
+    /**
+     * Remove a costume of an user
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function removeCostume($locale, $user_ID, $costume_ID)
+    {
+      $user = User::findOrFail($user_ID);
+      $costume = Costume::findOrFail($costume_ID);
+
+      $user->costumes()->detach($costume->id);
+
+      return redirect()->back();
+    }
+
+
     /**
      * Display a listing of the resource.
      *
