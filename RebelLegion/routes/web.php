@@ -36,6 +36,17 @@ Route::group([
 
     Route::get('', ['as' => 'index', 'uses' => 'HomeController@index']);
 
+
+    Route::get('users/{user}/addCostume', 'UserController@addCostume')
+    ->name('users.addCostume');
+
+    Route::post('users/{user}/addCostume', 'UserController@storeCostume')
+    ->name('users.storeCostume');
+
+    Route::post('users/{user}/removeCostume/{costume}',
+     'UserController@removeCostume')->name('users.removeCostume');
+
+
     Route::resource('users', 'UserController');
 
     Route::resource('costumes', 'CostumeController');

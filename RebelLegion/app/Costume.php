@@ -14,4 +14,12 @@ class Costume extends Model
   protected $fillable = [
       'name', 'size'
   ];
+
+  /**
+   * The users that belong to the role.
+   */
+  public function users()
+  {
+      return $this->belongsToMany('App\User');
+  }
 }

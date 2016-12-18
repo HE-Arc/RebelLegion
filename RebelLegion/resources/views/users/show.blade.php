@@ -38,6 +38,21 @@
       {{ Form::close() }}
     </div>
 
+    <div class="large-1 large-centered medium-1 medium-centered small-1 small-centered columns">
+      <a href="{{ route('users.addCostume', [ 'lang' => App::getLocale(), 'user' => $user->id] ) }}" class="button">@lang('forms_buttons_common.add') @lang('forms_buttons_common.costume')</a>
+    </div>
+
+    <div class="row">
+      @foreach($user->costumes as $costume)
+        <p>
+          {{ $costume->name }}
+          {{ Form::open([ 'class' => 'edit_delete_forms', 'method' => 'POST', 'route' => ['users.removeCostume', 'lang' => App::getLocale(), 'user' => $user->id, 'costume' => $costume->id] ]) }}
+            <button type="submit" class="button alert">@lang('forms_buttons_common.remove')</button>
+          {{ Form::close() }}
+        </p>
+      @endforeach
+    </div>
+
   </div>
 </div>
 
