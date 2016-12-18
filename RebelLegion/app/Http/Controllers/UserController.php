@@ -57,8 +57,6 @@ class UserController extends Controller
      */
     public function storeCostume(UserAddCostumeRequest $request, $locale, $id)
     {
-      echo $id.'</br>';
-      echo $request->name;
       $user = User::findOrFail($id);
       $costume = Costume::where('name', $request->name)->first();
 
