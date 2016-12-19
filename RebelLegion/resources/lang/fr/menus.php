@@ -15,9 +15,7 @@ return [
     'costumes' => 'Costumes',
     'members' => 'Membres',
     'aboutUs' => 'À propos de nous',
-    'login' => 'Se connecter',
-    'register' => "S'enregistrer",
-    'logout' => 'Se déconnecter',
+    'chooseLanguage' => 'Choisir langue',
     'en' => 'anglais',
     'fr' => 'français',
     'de' => 'allemand'

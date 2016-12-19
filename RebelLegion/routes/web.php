@@ -104,6 +104,7 @@ Route::group([
         return view('contact');
     })->name('contact');
 
+   
     Route::get('costumes', function () {
       $usersSmall = User::paginate(3);
       $usersMedium = User::paginate(6);
@@ -111,28 +112,29 @@ Route::group([
       $users = User::take(30)->get(); //On n'en prend que 30 pour les tests, sinon faire User::all()
 
       //dd($users[1]['id'], $users[2], count($users));
+    Route::get('users/{user}/addCostume', 'UserController@addCostume')
+    ->name('users.addCostume');
 
-      //soit on récupère la taille et quand celle-ci change on recharge (mieux?)
-      //Comment?
+    Route::post('users/{user}/addCostume', 'UserController@storeCostume')
+    ->name('users.storeCostume');
 
-    return view('costumes', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge, "i" => 0/*, 'users' => $users*/]);
-
-  })->name('costumes');
-
-  Route::get('members', function () {
-      //soit on fait 3 requêtes de paginate (pour les 3 tailles d'écran)
-      $usersSmall = User::paginate(9);
-      $usersMedium = User::paginate(24);
-      $usersLarge = User::paginate(40);
-
-
-      //soit on récupère la taille et quand celle-ci change on recharge (mieux?)
-      //Comment?
-
+      
       return view('members', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge]);
   })->name('members');
 
-  Route::get('members/{userid}', function ($lang, $userid) {
+    Route::post('users/{user}/removeCostume/{costume}',
+     'UserController@removeCostume')->name('users.removeCostume');
+
+    Route::resource('users', 'UserController');
+
+   
+    Route::resource('costumes', 'CostumeController');
+
+    Route::get('/contact', function () {
+        return view('contact');
+    })->name('contact');
+
+Route::get('members/{userid}', function ($lang, $userid) {
       $user = User::find($userid);
       if(isset($user)){
         return view('membercard', ['user' => $user] );
@@ -140,12 +142,7 @@ Route::group([
       else{
         return redirect('');
       }
-  })->name('membercard');
-
-
-
-  Route::get('aboutus', function () {
-      return view('aboutus');
+  })->name('membercard');Route::get('/aboutus', function () {      return view('aboutus');
   })->name('aboutus');
 
 });

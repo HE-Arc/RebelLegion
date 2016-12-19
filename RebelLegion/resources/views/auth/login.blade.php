@@ -1,17 +1,17 @@
-@extends('app')
+@extends('layouts.app')
 
 @section('content')
 
 
 <div class="row">
 	<div class="small-12 small-centered medium-8 large-6 columns">
-		<div class="callout-header">Login</div>
+		<div class="callout-header">@lang('auth.login')</div>
 		<div class="callout form">
 
 			<form class="log-in-form" role="form" method="POST" action="{{ url('/login') }}">
 				{{ csrf_field() }}
 
-		      <label>Adresse e-mail *
+		      <label>@lang('users.email')
 		        <input id="email" type="email" name="email" placeholder="monmail@exemple.com" value="{{ old('email') }}" required="required" aria-describedby="exampleHelpText">
 
 						@if ($errors->has('email'))
@@ -21,7 +21,7 @@
 						@endif
 		      </label>
 
-					<label for="password">Mot de passe * </label>
+					<label for="password">@lang('users.password')</label>
 
 					<div class="input-group">
 						<input id="password" class="input-group-field" type="password" name="password" required="required">
@@ -35,21 +35,20 @@
 								</label>
 						@endif
 					</div>
-					<p class="help-text" id="helpText">Les champs indiqués par une * sont obligatoires</p>
 
 					<label>
-							<input type="checkbox" name="remember"> Se souvenir de moi</input>
+							<input type="checkbox" name="remember">@lang('users.rememberMe')</input>
 					</label>
 
 					<p>
 						<button type="submit" class="button expanded">
-								Se connecter
+								@lang('auth.login')
 						</button>
 					</p>
 
 					<p class="text-center">
-						<a class="menu_link" href="{{ url('/password/reset') }}">
-							Mot de passe oublié?
+						<a class="menu_link" href="{{ route('passwordReset', ['lang' => App::getLocale() ])  }}">
+							@lang('auth.forgotPassword')
 						</a>
 					</p>
 

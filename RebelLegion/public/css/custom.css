@@ -614,3 +614,13 @@ font-size: 1.6rem;
 	0% { top: 60%; }
 	100% { top: -450%; }
 }
+
+.error {
+  background-color: red;
+  color: white;
+}
+
+.edit_delete_forms{
+  display: inline-block;
+  text-align: center;
+}
