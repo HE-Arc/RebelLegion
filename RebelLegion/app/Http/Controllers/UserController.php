@@ -111,7 +111,18 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-      $user = User::create($request->only('userName', 'firstName', 'lastName', 'email', 'password'));
+      $user = User::create($request->only('userName',
+                                          'firstName',
+                                          'lastName',
+                                          'email',
+                                          'phoneNumber',
+                                          'facebookURL',
+                                          'isPersonalDataVisiblle',
+                                          'position',
+                                          'status',
+                                          'internationalRebelLegionURL',
+                                          null,
+                                          'password'));
       return redirect()->route('users.index', App::getLocale());
     }
 
@@ -153,6 +164,12 @@ class UserController extends Controller
       $user->firstName = $request->firstName;
       $user->lastName = $request->lastName;
       $user->email = $request->email;
+      $user->phoneNumber = $request->phoneNumber;
+      $user->facebookURL = $request->facebookURL;
+      $user->isPersonalDataVisiblle = $request->isPersonalDataVisiblle;
+      $user->position = $request->position;
+      $user->status = $request->status;
+      $user->internationalRebelLegionURL = $request->internationalRebelLegionURL;
       $user->password = $request->password;
       $user->save();
       return redirect()->route('users.index', App::getLocale());

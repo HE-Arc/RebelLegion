@@ -19,6 +19,13 @@ class CreateUsersTable extends Migration
             $table->string('firstName');
             $table->string('lastName');
             $table->string('email')->unique();
+            $table->string('phoneNumber');
+            $table->string('facebookURL');
+            $table->boolean('isPersonalDataVisiblle');
+            $table->string('position');
+            $table->string('status');
+            $table->string('internationalRebelLegionURL');
+            $table->string('avatarURL')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

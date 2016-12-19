@@ -42,6 +42,54 @@
     </div>
 
     <div class="row">
+      <label for="phoneNumber">@lang('users.phoneNumber')</label>
+      <input type="tel" id="phoneNumber" name="phoneNumber" value="{{ $user->phoneNumber }}" required/>
+      @if ($errors->has('phoneNumber'))
+        <small class="error">{{ $errors->first('phoneNumber') }}</small>
+      @endif
+    </div>
+
+    <div class="row">
+      <label for="facebookURL">@lang('users.facebookURL')</label>
+      <input type="url" id="facebookURL" name="facebookURL" value="{{ $user->facebookURL }}" required/>
+      @if ($errors->has('facebookURL'))
+        <small class="error">{{ $errors->first('facebookURL') }}</small>
+      @endif
+    </div>
+
+    <div class="row">
+      <label for="isPersonalDataVisiblle">@lang('users.isPersonalDataVisiblle')</label>
+      <input type="number" id="isPersonalDataVisiblle" name="isPersonalDataVisiblle" value="{{ $user->isPersonalDataVisiblle }}" required/>
+      @if ($errors->has('isPersonalDataVisiblle'))
+        <small class="error">{{ $errors->first('isPersonalDataVisiblle') }}</small>
+      @endif
+    </div>
+
+    <div class="row">
+      <label for="position">@lang('users.position')</label>
+      <input type="text" id="position" name="position" value="{{ $user->position }}" required/>
+      @if ($errors->has('position'))
+        <small class="error">{{ $errors->first('position') }}</small>
+      @endif
+    </div>
+
+    <div class="row">
+      <label for="status">@lang('users.status')</label>
+      <input type="text" id="status" name="status" value="{{ $user->status }}" required/>
+      @if ($errors->has('status'))
+        <small class="error">{{ $errors->first('status') }}</small>
+      @endif
+    </div>
+
+    <div class="row">
+      <label for="internationalRebelLegionURL">@lang('users.internationalRebelLegionURL')</label>
+      <input type="url" id="internationalRebelLegionURL" name="internationalRebelLegionURL" value="{{ $user->internationalRebelLegionURL }}" required/>
+      @if ($errors->has('internationalRebelLegionURL'))
+        <small class="error">{{ $errors->first('internationalRebelLegionURL') }}</small>
+      @endif
+    </div>
+
+    <div class="row">
         <label for="password">@lang('users.password')</label>
         <input type="password" id="password" name="password" required/>
         @if ($errors->has('password'))
