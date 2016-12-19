@@ -25,6 +25,35 @@
           <th>@lang('users.email')</th>
           <td>{{ $user->email }}</td>
         </tr>
+
+        <tr>
+          <th>@lang('users.phoneNumber')</th>
+          <td>{{ $user->phoneNumber }}</td>
+        </tr>
+        <tr>
+          <th>@lang('users.facebookURL')</th>
+          <td><a href="{{ $user->facebookURL }}">{{ $user->facebookURL }}</a></td>
+        </tr>
+        <tr>
+          <th>@lang('users.isPersonalDataVisiblle')</th>
+          <td>{{ $user->isPersonalDataVisiblle }}</td>
+        </tr>
+        <tr>
+          <th>@lang('users.position')</th>
+          <td>{{ $user->position }}</td>
+        </tr>
+        <tr>
+          <th>@lang('users.status')</th>
+          <td>{{ $user->status }}</td>
+        </tr>
+        <tr>
+          <th>@lang('users.internationalRebelLegionURL')</th>
+          <td><a href="{{ $user->internationalRebelLegionURL }}">{{ $user->internationalRebelLegionURL }}</a></td>
+        </tr>
+        <tr>
+          <th>@lang('users.avatarURL')</th>
+          <td>{{ $user->avatarURL }}</td>
+        </tr>
       </tbody>
     </table>
 
