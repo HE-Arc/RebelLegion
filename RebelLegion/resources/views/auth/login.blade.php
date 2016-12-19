@@ -8,7 +8,7 @@
 		<div class="callout-header">@lang('auth.login')</div>
 		<div class="callout form">
 
-			<form class="log-in-form" role="form" method="POST" action="{{ url('/login') }}">
+			<form class="log-in-form" role="form" method="POST" action="{{ route('login', ['lang' =>App::getLocale()] ) }}">
 				{{ csrf_field() }}
 
 		      <label>@lang('users.email')

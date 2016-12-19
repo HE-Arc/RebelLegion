@@ -16,7 +16,12 @@ class CreateCostumesTable extends Migration
         Schema::create('costumes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('size');
+            $table->string('position');
+            $table->longText('descriptionEN');
+            $table->longText('descriptionFR')->nullable();
+            $table->longText('descriptionDE')->nullable();
+            $table->string('internationalRebelLegionURL');
+            $table->string('thumbnailURL')->nullable();
             $table->timestamps();
         });
     }

@@ -12,5 +12,9 @@ return [
     */
 
     'name' => 'Name',
-    'size' => 'Size'
+    'position' => 'Position',
+    'descriptionEN' => 'English description',
+    'descriptionFR' => 'French description ',
+    'descriptionDE' => 'German description',
+    'internationalRebelLegionURL' => 'RebeleLegion international costume URL'
 ];

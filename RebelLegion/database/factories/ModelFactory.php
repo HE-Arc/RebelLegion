@@ -35,6 +35,8 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 $factory->define(App\Costume::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
-        'size' => $faker->name
+        'position' => $faker->name,
+        'descriptionEN' => $faker->paragraph($nbSentences = 3, $variableNbSentences = true),
+        'internationalRebelLegionURL' => $faker->url,
     ];
 });

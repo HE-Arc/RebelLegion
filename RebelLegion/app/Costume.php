@@ -12,7 +12,13 @@ class Costume extends Model
    * @var array
    */
   protected $fillable = [
-      'name', 'size'
+      'name',
+      'position',
+      'descriptionEN',
+      'descriptionFR',
+      'descriptionDE',
+      'internationalRebelLegionURL',
+      'thumbnailURL'
   ];
 
   /**
