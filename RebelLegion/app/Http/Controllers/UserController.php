@@ -90,7 +90,11 @@ class UserController extends Controller
     public function index()
     {
       $usersSmall = User::paginate(9);
-      return view('users.index', ['usersSmall' => $usersSmall]);
+      $usersMedium = User::paginate(24);
+      $usersLarge = User::paginate(40);
+      return view('users.index', ['usersSmall' => $usersSmall,
+                                  'usersMedium' => $usersMedium,
+                                  'usersLarge' => $usersLarge]);
     }
 
     /**

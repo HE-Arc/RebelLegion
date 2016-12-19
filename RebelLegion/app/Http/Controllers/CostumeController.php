@@ -44,7 +44,13 @@ class CostumeController extends Controller
      */
     public function store(CostumeCreateRequest $request)
     {
-      $costume = Costume::create($request->only('name', 'size'));
+      $costume = Costume::create($request->only('name',
+                                                'position',
+                                                'descriptionEN',
+                                                'descriptionFR',
+                                                'descriptionDE',
+                                                'internationalRebelLegionURL',
+                                                null));
       return redirect()->route('costumes.index', App::getLocale());
     }
 
@@ -83,7 +89,11 @@ class CostumeController extends Controller
     {
       $costume = Costume::findOrFail($id);
       $costume->name = $request->name;
-      $costume->size = $request->size;
+      $costume->position = $request->position;
+      $costume->descriptionEN = $request->descriptionEN;
+      $costume->descriptionFR = $request->descriptionFR;
+      $costume->descriptionDE = $request->descriptionDE;
+      $costume->internationalRebelLegionURL = $request->internationalRebelLegionURL;
       $costume->save();
       return redirect()->route('costumes.index', App::getLocale());
     }

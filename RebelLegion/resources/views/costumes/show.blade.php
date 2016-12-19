@@ -14,9 +14,26 @@
           <td>{{ $costume->name }}</td>
         </tr>
         <tr>
-          <th>@lang('costumes.size')</th>
-          <td>{{ $costume->size }}</td>
+          <th>@lang('costumes.position')</th>
+          <td>{{ $costume->position }}</td>
         </tr>
+        <tr>
+          <th>@lang('costumes.descriptionEN')</th>
+          <td>{{ $costume->descriptionEN }}</td>
+        </tr>
+        <tr>
+          <th>@lang('costumes.descriptionFR')</th>
+          <td>{{ $costume->descriptionFR }}</td>
+        </tr>
+        <tr>
+          <th>@lang('costumes.descriptionDE')</th>
+          <td>{{ $costume->descriptionDE }}</td>
+        </tr>
+        <tr>
+          <th>@lang('costumes.internationalRebelLegionURL')</th>
+          <td>{{ $costume->internationalRebelLegionURL }}</td>
+        </tr>
+
       </tbody>
     </table>
 

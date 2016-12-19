@@ -20,7 +20,7 @@ return [
     'isPersonalDataVisiblle' => 'Show personal data',
     'position' => 'Position',
     'status' => 'Status',
-    'internationalRebelLegionURL' => 'RebeleLegion international profile',
+    'internationalRebelLegionURL' => 'RebeleLegion international profile URL',
     'avatarURL' => 'Avatar',
     'password' => 'Password',
     'passwordConfirmation' => 'Confirm password',

@@ -128,20 +128,20 @@
              @else
              <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
                <a >
-                 {{ Auth::user()->name }}
+                 {{ Auth::user()->userName }}
                </a>
                <ul class="submenu menu vertical is-dropdown-submenu first-sub" >
                  <li>
-                   <a href="{{url('/account/tab1')}}">Mon compte</a>
+                   <a href="{{ route('users.show', ['lang' => App::getLocale(), 'user' => Auth::user()->id]) }}">Mon compte</a>
                  </li>
                  <li>
-                   <a href="{{ url('/logout') }}"
+                   <a href="{{ route('logout', ['lang' => App::getLocale()]) }}"
                    onclick="event.preventDefault();
                    document.getElementById('logout-form').submit();">
-                     {{ trans('menus.logout') }}
+                     {{ trans('auth.logout') }}
                    </a>
                  </li>
-                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                 <form id="logout-form" action="{{ route('logout', ['lang' => App::getLocale()] ) }}" method="POST" style="display: none;">
                    {{ csrf_field() }}
                  </form>
                </ul>

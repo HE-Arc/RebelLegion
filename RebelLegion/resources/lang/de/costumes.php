@@ -11,10 +11,10 @@ return [
     |
     */
 
-    'name' => 'Nom',
+    'name' => 'Name',
     'position' => 'Position',
-    'descriptionEN' => 'Description en anglais',
-    'descriptionFR' => 'Description en français',
-    'descriptionDE' => 'Description en allemand',
-    'internationalRebelLegionURL' => 'URL du costume RebeleLegion international'
+    'descriptionEN' => 'Beschreibung in Englisch',
+    'descriptionFR' => 'Beschreibung in Französisch',
+    'descriptionDE' => 'Beschreibung Deutsch',
+    'internationalRebelLegionURL' => 'URL internationalen RebeleLegion kostüm'
 ];

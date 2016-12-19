@@ -17,10 +17,48 @@
       </div>
 
       <div class="row">
-        <label for="size">@lang('costumes.size')</label>
-        <input type="text" id="size" name="size" value="{{ old('size') }}" required/>
-        @if ($errors->has('size'))
-          <small class="error">{{ $errors->first('size') }}</small>
+        <label for="position">@lang('costumes.position')</label>
+        <input type="text" id="position" name="position" value="{{ old('position') }}" required/>
+        @if ($errors->has('position'))
+          <small class="error">{{ $errors->first('position') }}</small>
+        @endif
+      </div>
+
+      <div class="row">
+        <label for="descriptionEN">@lang('costumes.descriptionEN')</label>
+        <textarea rows="4" cols="50" id="descriptionEN" name="descriptionEN" required>
+          {{ old('descriptionEN') }}
+        </textarea>
+        @if ($errors->has('descriptionEN'))
+          <small class="error">{{ $errors->first('descriptionEN') }}</small>
+        @endif
+      </div>
+
+      <div class="row">
+        <label for="descriptionFR">@lang('costumes.descriptionFR')</label>
+        <textarea rows="4" cols="50" id="descriptionFR" name="descriptionFR">
+          {{ old('descriptionFR') }}
+        </textarea>
+        @if ($errors->has('descriptionFR'))
+          <small class="error">{{ $errors->first('descriptionFR') }}</small>
+        @endif
+      </div>
+
+      <div class="row">
+        <label for="descriptionDE">@lang('costumes.descriptionDE')</label>
+        <textarea rows="4" cols="50" id="descriptionDE" name="descriptionDE">
+          {{ old('descriptionDE') }}
+        </textarea>
+        @if ($errors->has('descriptionDE'))
+          <small class="error">{{ $errors->first('descriptionDE') }}</small>
+        @endif
+      </div>
+
+      <div class="row">
+        <label for="internationalRebelLegionURL">@lang('costumes.internationalRebelLegionURL')</label>
+        <input type="url" id="internationalRebelLegionURL" name="internationalRebelLegionURL" value="{{ old('internationalRebelLegionURL') }}" required/>
+        @if ($errors->has('internationalRebelLegionURL'))
+          <small class="error">{{ $errors->first('internationalRebelLegionURL') }}</small>
         @endif
       </div>
 

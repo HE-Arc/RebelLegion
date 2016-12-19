@@ -25,7 +25,11 @@ class CostumeCreateRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'size' => 'required|string'
+            'position' => 'required|string',
+            'descriptionEN' => 'required|string',
+            'descriptionFR' => 'nullable|string',
+            'descriptionDE' => 'nullable|string',
+            'internationalRebelLegionURL' => 'required|url'
         ];
     }
 }
