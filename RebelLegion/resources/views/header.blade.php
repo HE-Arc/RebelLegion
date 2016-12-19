@@ -1,25 +1,23 @@
 <!DOCTYPE html>
-@php
-  $language = Session::get('lang', App::getLocale());
-@endphp
-<html class="no-js" dir="ltr" lang='{{$language}}'>
+
+<html class="no-js" dir="ltr" lang='{{$lang}}'>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
     		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <title>Foundation Starter Template</title>
+        <title>Rebel Legion - Swiss Outpost</title>
 
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <!-- Styles -->
-    		<link rel="stylesheet" href="/css/foundation-icons.css" />
-    		<link rel="stylesheet" href="/css/app.css" />
-    		<link rel="stylesheet" href="/css/custom.css" />
+    		<link rel="stylesheet" href={{asset('css/foundation-icons.css')}} />
+    		<link rel="stylesheet" href={{asset('css/app.css')}} />
+    		<link rel="stylesheet" href={{asset('css/custom.css')}} />
 
         <!-- les 2 css ci-dessous sont les même, (on utilise le 1er pour développer en local)-->
-        <link rel="stylesheet" href="/css/motion-ui.css" />
+        <link rel="stylesheet" href={{asset('css/motion-ui.css')}} />
         <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.2.2/motion-ui.min.css" />
         -->
 
@@ -36,7 +34,7 @@
             @endphp
         </script>
 
-    		<script src="/js/jquery.js"></script>
+    		<script src={{asset('js/jquery.js')}}></script>
 
     </head>
     <body>
@@ -51,7 +49,7 @@
                   @foreach( session('currentRouteParams', 'default') as $key => $value)
                    {{  $key }} {{ $value}}
                   @endforeach
-                  {{$language}}
+                  {{$lang}}
                </div>
 
 
