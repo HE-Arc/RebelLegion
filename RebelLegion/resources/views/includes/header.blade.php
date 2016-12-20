@@ -1,33 +1,80 @@
 <!-- off-canvas left menu -->
+
 <div class="rl-ofc off-canvas position-left" id="offCanvas" data-off-canvas="yzidu3-off-canvas" aria-hidden="true">
   <button class="close-button" aria-label="Close menu" type="button" data-close="">
      <span aria-hidden="true">×</span>
    </button>
-   <ul class="rl-mobile-ofc vertical menu">
+   <ul class="rl-mobile-ofc vertical menu" data-accordion-menu>
      <li class="topbar-title">
-       <a id="menu_link_home" href="{{url('/')}}">
+       <a class="menu_link_home" href="{{url('/')}}">
          <i class="fi-home"></i>
          @lang('menus.home')
        </a>
      </li>
-     <li role="menuitem">
-       <a id="menu_link_costums" href="{{ route('costumes.index', App::getLocale() ) }}">
+     <li>
+       <a class="menu_link_costums" href="{{ route('costumes.index', App::getLocale() ) }}">
          <i class="fi-book"></i>
          @lang('menus.costumes')
        </a>
      </li>
-     <li role="menuitem">
-       <a id="menu_link_users" href="{{ route('users.index', App::getLocale() ) }}">
+     <li>
+       <a class="menu_link_members" href="{{ route('users.index', App::getLocale() ) }}">
          <i class="fi-torsos-all"></i>
          @lang('menus.members')
        </a>
      </li>
-     <li role="menuitem">
-       <a id="menu_link_us" href="{{ route('aboutus', App::getLocale() ) }}">
+     <li>
+       <a class="menu_link_us" href="{{ route('aboutus', App::getLocale() ) }}">
          <i class="fi-arrows-in"></i>
          @lang('menus.aboutUs')
        </a>
      </li>
+
+     <li>
+        <a href="">{{ $lang }}</a>
+        <ul class="menu vertical nested">
+          @foreach(['fr','de','en'] as $langchoice)
+           @if($langchoice != $lang)
+           <li>
+             <a href="{{ route('index', ['lang' => $langchoice]) }}">
+               {{ $langchoice }}
+             </a>
+           </li>
+           @endif
+          @endforeach
+        </ul>
+      </li>
+
+      @if (Auth::guest())
+      <li><a class="menu_link_login" href="{{ route('login', ['lang' => App::getLocale() ] ) }}"><i class="fi-torso"></i> <span>{{ trans('auth.login') }}</span></a></li>
+      <li><a class="menu_link_register" href="{{ route('register', ['lang' => App::getLocale() ] ) }}">{{ trans('auth.register') }}</a></li>
+      @else
+      <li role="menu">
+        <a >
+            {{ Auth::user()->name }}
+        </a>
+        <ul class="menu vertical nested" >
+          <li role="menuitem">
+            <a href="{{url('/account/tab1')}}">Mon compte</a>
+          </li>
+          <li role="menuitem">
+            <a href="{{ url('/logout') }}"
+                onclick="event.preventDefault();
+                         document.getElementById('logout-form').submit();">
+                {{ trans('auth.logout') }}
+            </a>
+          </li>
+          <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+              {{ csrf_field() }}
+          </form>
+        </ul>
+      </li>
+      @endif
+
+
+
+
+
    </ul>
  </div>
 
@@ -55,73 +102,58 @@
        <nav class="rl-topbar">
          <ul class="dropdown menu" data-dropdown-menu="lpdqu6-dropdown-menu" data-click-open="false" role="menubar">
            <li class="topbar-title">
-             <a id="menu_link_home" href="{{url('/')}}">
+             <a class="menu_link_home" href="{{url('/')}}">
                <i class="fi-home"></i>
                @lang('menus.home')
              </a>
            </li>
            <li role="menuitem">
-             <a id="menu_link_costums" href="{{ route('costumes.index', App::getLocale() ) }}">
+             <a class="menu_link_costums" href="{{ route('costumes.index', App::getLocale() ) }}">
                <i class="fi-book"></i>
                @lang('menus.costumes')
              </a>
            </li>
            <li role="menuitem">
-             <a id="menu_link_members" href="{{ route('users.index', App::getLocale() ) }}">
+             <a class="menu_link_members" href="{{ route('users.index', App::getLocale() ) }}">
                <i class="fi-torsos-all"></i>
                @lang('menus.members')
              </a>
            </li>
            <li role="menuitem">
-             <a id="menu_link_us" href="{{ route('aboutus', App::getLocale() ) }}">
+             <a class="menu_link_us" href="{{ route('aboutus', App::getLocale() ) }}">
                <i class="fi-arrows-in"></i>
                @lang('menus.aboutUs')
              </a>
            </li>
+
          </ul>
+
 
 
          <ul class="dropdown menu" data-dropdown-menu="lpdqu6-dropdown-menu" data-click-open="false" role="menubar">
            <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
-             <a href="#">
-               {{ trans('menus.chooseLanguage') }}
+             <a>
+               {{ $lang }}
              </a>
              <ul class="submenu menu vertical is-dropdown-submenu first-sub" >
-               <li>
-                @if( isset($user) )
-                  <a href="{{ route( Route::currentRouteName(), ['lang' => 'fr', 'user' => $user->id]) }}">
-                @elseif( isset($costume) )
-                  <a href="{{ route( Route::currentRouteName(), ['lang' => 'fr', 'costume' => $costume->id]) }}">
-                @else
-                 <a href="{{ route( Route::currentRouteName(), ['lang' => 'fr']) }}">
+               @foreach(['fr','de','en'] as $langchoice)
+                @if($langchoice != $lang)
+                <li>
+                  @if( isset($user) )
+                    <a href="{{ route( Route::currentRouteName(), ['lang' => $langchoice, 'user' => $user->id]) }}">
+                  @elseif( isset($costume) )
+                    <a href="{{ route( Route::currentRouteName(), ['lang' => $langchoice, 'costume' => $costume->id]) }}">
+                  @else
+                   <a href="{{ route( Route::currentRouteName(), ['lang' => $langchoice]) }}">
+                  @endif
+                     {{ $langchoice }}
+                   </a>
+                </li>
                 @endif
-                   {{ trans('menus.fr') }}
-                 </a>
-               </li>
-               <li>
-                 @if( isset($user) )
-                   <a href="{{ route( Route::currentRouteName(), ['lang' => 'de', 'user' => $user->id]) }}">
-                     @elseif( isset($costume) )
-                       <a href="{{ route( Route::currentRouteName(), ['lang' => 'de', 'costume' => $costume->id]) }}">
-                 @else
-                  <a href="{{ route( Route::currentRouteName(), ['lang' => 'de']) }}">
-                 @endif
-                   {{ trans('menus.de') }}
-                 </a>
-               </li>
-               <li>
-                 @if( isset($user) )
-                   <a href="{{ route( Route::currentRouteName(), ['lang' => 'en', 'user' => $user->id]) }}">
-                     @elseif( isset($costume) )
-                       <a href="{{ route( Route::currentRouteName(), ['lang' => 'en', 'costume' => $costume->id]) }}">
-                 @else
-                  <a href="{{ route( Route::currentRouteName(), ['lang' => 'en']) }}">
-                 @endif
-                   {{ trans('menus.en') }}
-                 </a>
-               </li>
+               @endforeach
 
              </ul>
+           </li>
              @if (Auth::guest())
              <li><a class="menu_link_login" href="{{ route('login', ['lang' => App::getLocale() ] ) }}"><i class="fi-torso"></i> <span>{{ trans('auth.login') }}</span></a></li>
              <li><a class="menu_link_register" href="{{ route('register', ['lang' => App::getLocale() ] ) }}">{{ trans('auth.register') }}</a></li>
@@ -157,49 +189,7 @@
          <span class="title-bar-title">Rebel Legion — Swiss Outpost</span>
        </div>
        <div class="title-bar-right">
-         <ul class="dropdown menu" data-dropdown-menu="lpdqu6-dropdown-menu" data-click-open="false" role="menubar">
-           <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
-             <a href="{{ route('index', ['lang' => 'fr']) }}">
-               {{ trans('menus.fr') }}
-             </a>
-             <ul class="submenu menu vertical is-dropdown-submenu first-sub" >
-               <li>
-                 <a href="{{ route('index', ['lang' => 'de']) }}">
-                   {{ trans('menus.de') }}
-                 </a>
-               </li>
-               <li>
-                 <a href="{{ route('index', ['lang' => 'en']) }}">
-                   {{ trans('menus.en') }}
-                 </a>
-               </li>
-             </ul>
-             @if (Auth::guest())
-             <li><a class="menu_link_login" href="{{ url('/login') }}"><i class="fi-torso"></i> <span>{{ trans('menus.login') }}</span></a></li>
-             <li><a class="menu_link_register" href="{{ url('/register') }}">{{ trans('menus.register') }}</a></li>
-             @else
-             <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
-               <a >
-                   {{ Auth::user()->name }}
-               </a>
-               <ul class="submenu menu vertical is-dropdown-submenu first-sub" >
-                 <li>
-                   <a href="{{url('/account/tab1')}}">Mon compte</a>
-                 </li>
-                 <li>
-                   <a href="{{ url('/logout') }}"
-                       onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
-                       {{ trans('menus.logout') }}
-                   </a>
-                 </li>
-                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                     {{ csrf_field() }}
-                 </form>
-               </ul>
-             </li>
-             @endif
-           </ul>
+
          </div>
        </div>
      </div>

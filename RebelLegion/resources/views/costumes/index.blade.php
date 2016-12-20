@@ -35,7 +35,9 @@
                   $ido = $costumes[$i]->id;
                 @endphp
 								<div class="small-4 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="{{$ido}}">
+                  <a href="{{route('costumes.show', ['lang' => App::getLocale(), 'costume' => $ido] )}}">
+									 <img class="thumbnail remove_link_if_js" src="{{asset("img/joconde.jpg")}}" alt="{{$ido}}">
+                  <a>
 								</div>
 
 								@php
@@ -81,7 +83,9 @@
                   $ido = $costumes[$i]->id;
                 @endphp
 								<div class="medium-2 columns">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="{{$ido}}">
+                  <a href="{{route('costumes.show', ['lang' => App::getLocale(), 'costume' => $ido] )}}">
+									 <img class="thumbnail remove_link_if_js" src="{{asset("img/joconde.jpg")}}" alt="{{$ido}}">
+                  </a>
 								</div>
 
 								@php
@@ -129,7 +133,9 @@
                 $ido = $costumes[$i]->id;
               @endphp
 								<div class="column-1of8 column">
-									<img class="thumbnail" src="{{asset("img/joconde.jpg")}}" alt="{{$ido}}">
+                  <a href="{{route('costumes.show', ['lang' => App::getLocale(), 'costume' => $ido] )}}">
+									 <img class="thumbnail remove_link_if_js" src="{{asset("img/joconde.jpg")}}" alt="{{$ido}}">
+                  </a>
 
 								</div>
 
@@ -151,11 +157,12 @@
 	</div>
 
 
-  <div id="showcostume_ajax_div">
-    @include('costumes.showajax', ['lang' => App::getLocale(), 'costume' => $costumes->get('0')])
-  </div>
+  <div id="showcostume_ajax_div" >
 
-</div>
+  </div>
+  {{ Form::hidden('invisible', $costumes['0']->id, array('id' => 'invisible_id')) }}
+
+
 
 <script>
 
@@ -170,24 +177,42 @@
 
 	$(document).ready(function(){
 
-		$('.menu_link_members').parent().addClass('active');
+		$('.menu_link_costums').parent().addClass('active');
 		//console.log(Foundation.MediaQuery.atLeast('large'));
 		//Pour savoir si on est au minimum en large
 
-    $(function () {
-        $('img').click(function () {
+    var imgTags = $( "img.remove_link_if_js" );
 
-            $.ajax({
-                url: 'costumes/updateindex/' + this.alt,
-                type: 'POST'
-            })
-            .done(function (data) {
-                $('#showcostume_ajax_div').html(data.html);
-            })
-            .fail(function () {
-                $('#showcostume_ajax_div').html("FAIL");
-            });
+    if ( imgTags.parent().is( "a" ) ) {
+      imgTags.unwrap();
+    }
 
+    var first_costume_id = $('#invisible_id').attr('value');
+
+
+    /*le numéro de l'url : 1 = l'index de la 1ère image, il faudrait récupérer l'info dans un champ caché de la page
+    pour éviter les mauvaises surprises*/
+    $.ajax({
+        url: 'costumes/updateindex/1',
+        type: 'POST'
+    })
+    .done(function (data) {
+        $('#showcostume_ajax_div').html(data.html);
+    })
+    .fail(function () {
+        $('#showcostume_ajax_div').html("FAIL");
+    });
+
+    $('img').click(function () {
+        $.ajax({
+            url: 'costumes/updateindex/' + this.alt,
+            type: 'POST'
+        })
+        .done(function (data) {
+            $('#showcostume_ajax_div').html(data.html);
+        })
+        .fail(function () {
+            $('#showcostume_ajax_div').html("FAIL");
         });
     });
 

@@ -31,11 +31,11 @@
 
 						</div>
 					</div>
-</div>
+
 
 <script>
 	$(document).ready(function(){
-		$('.menu_link_aboutus').parent().addClass('active');
+		$('.menu_link_us').parent().addClass('active');
 	});
 </script>
 

@@ -15,50 +15,15 @@ use App\Http\Controllers\RedirectController;
 use App\User;
 
 Route::get('', function() {
-    if(Session::has('lang'))
-    {
-      $lang = Session::get('lang');
-    }
-    else {
-      $lang = App::getLocale();
-    }
-    return redirect()->route('index', $lang);
+    return redirect()->route('index', App::getLocale());
 });
 
-Route::get('home', function() {
-    return RedirectController::redirectWithLang('home');
-});
 
-Route::get('password/reset', function() {
-    return RedirectController::redirectWithLang('passwordreset');
-});
-
-Route::get('password/reset/{token}', function() {
-    return RedirectController::redirectWithLang('passwordresettoken');
-});
-
-Route::get('login', function() {
-    return RedirectController::redirectWithLang('login');
-});
-
-Route::get('contact', function () {
-    return RedirectController::redirectWithLang('contact');
-});
-
-Route::get('members/{userid}', function($userid) {
-    return RedirectController::redirectWithLangParam('/members/', $userid);
-});
-
-Route::get('/account/tab{tab_id}', function($tab_id) {
-    return RedirectController::redirectWithLangParam('/account/tab', $tab_id);
-})->where(['tab_id' => '[1-3]']);
 
 //Ajouter costume
 Route::post('apply/upload', 'ApplyController@upload');
 
-// Login route
-Route::post('login', 'Auth\LoginController@login');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
 
 // Registration Routes...
 Route::post('register', 'Auth\RegisterController@register');
@@ -73,14 +38,14 @@ Route::group([
     'middleware' => 'locale'
 ], function() {
 
-    Route::get('langchange', function($lang) {
-      $paramsArray = session('currentRouteParams');
-      $paramsArray['lang'] = $lang;
-      return redirect()->route(session('currentRouteName'), $paramsArray);
-    })->name('langchange');
+
 
     //Ajax request on costume.index
     Route::post('/costumes/updateindex/{costume_id}', 'CostumeController@indexupdate');
+
+    // Login route
+    Route::post('login', 'Auth\LoginController@login');
+    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');

@@ -304,11 +304,13 @@
 
   </div>
 
-</div>
+
 
 <script>
 	$(document).ready(function(){
 		$('.menu_link_account').parent().addClass('active');
+
+
     $(".tabs-title > a").on("click",
       function(){
 

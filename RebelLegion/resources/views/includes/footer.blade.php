@@ -41,7 +41,7 @@
 <div class="js-off-canvas-exit"></div>
 
 
-<script src="/js/foundation.js"></script>
+<script src={{asset('js/foundation.js')}}></script>
 <script>
 $(document).foundation();
 

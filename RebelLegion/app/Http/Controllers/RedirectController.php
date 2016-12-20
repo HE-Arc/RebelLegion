@@ -11,7 +11,7 @@ class RedirectController extends Controller
 
     public static function redirectWithLang($routeName)
     {
-        return Redirect::route($routeName, Session::get('lang'));
+        return Redirect::route($routeName, App::getLocale());
     }
 
     public static function redirectWithLangParam($routePath, $parameter)

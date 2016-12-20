@@ -62,9 +62,6 @@
 	</div>
 
 
-
-</div>
-
 <script>
 	$(document).ready(function(){
 		$('.menu_link_members').parent().addClass('active');
