@@ -79,6 +79,9 @@ Route::group([
       return redirect()->route(session('currentRouteName'), $paramsArray);
     })->name('langchange');
 
+    //Ajax request on costume.index
+    Route::post('/costumes/updateindex/{costume_id}', 'CostumeController@indexupdate');
+
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
     Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
 
@@ -104,7 +107,7 @@ Route::group([
         return view('contact');
     })->name('contact');
 
-   
+
     Route::get('costumes', function () {
       $usersSmall = User::paginate(3);
       $usersMedium = User::paginate(6);
@@ -118,7 +121,7 @@ Route::group([
     Route::post('users/{user}/addCostume', 'UserController@storeCostume')
     ->name('users.storeCostume');
 
-      
+
       return view('members', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge]);
   })->name('members');
 
@@ -127,7 +130,7 @@ Route::group([
 
     Route::resource('users', 'UserController');
 
-   
+
     Route::resource('costumes', 'CostumeController');
 
     Route::get('/contact', function () {

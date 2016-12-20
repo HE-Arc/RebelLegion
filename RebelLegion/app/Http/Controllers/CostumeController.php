@@ -15,6 +15,11 @@ use App\Costume;
 
 class CostumeController extends Controller
 {
+
+    public function __construct()
+    {
+      $this->middleware('ajax')->only('indexupdate');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,8 +27,25 @@ class CostumeController extends Controller
      */
     public function index()
     {
-      $costumes = Costume::paginate(9);
+      $costumes = Costume::all();
       return view('costumes.index', ['costumes' => $costumes]);
+    }
+
+    /**
+     *
+     * update index with ajax request
+     */
+    public function indexupdate(Request $request, $lang, $costume_id){
+
+      if ($request->ajax()) {
+        $costume = Costume::findOrFail($costume_id);
+        $returnHTML = view('costumes.showajax',['lang' => $lang, 'costume' => $costume])->render();
+        return response()->json(array('success' => true, 'html'=>$returnHTML));
+      }
+      else {
+        abort(404);
+      }
+      
     }
 
     /**
