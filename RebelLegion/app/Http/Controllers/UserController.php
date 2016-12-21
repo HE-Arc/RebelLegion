@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Requests\UserAddCostumeRequest;
+use App\Http\Requests\UserSetAvatarRequest;
 
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Storage;
+
 use View;
 
 use App;
@@ -17,6 +20,72 @@ use App\Costume;
 
 class UserController extends Controller
 {
+
+    /**
+     * Show the form to set user avatar
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function setAvatar($locale, $id)
+    {
+      $user = User::findOrFail($id);
+      return View::make('users.setAvatar')->with('user', $user);
+    }
+
+    /**
+     * Set the user avatar
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function storeAvatar(UserSetAvatarRequest $request, $locale, $id)
+    {
+      $user = User::findOrFail($id);
+
+      $file = $request->file('avatar');
+      $imgOriginalName = $file->getClientOriginalName();
+
+      $imgName = time() . $imgOriginalName;
+
+      $firsrDir = 'avatars';
+      $path = $firsrDir. '/' . $user->id;
+
+      if( !is_null($user->avatarURL) )
+      {
+        $completePath = explode('/', $user->avatarURL);
+        $storageImagePath = $completePath[2].'/'.$completePath[3].'/'.$completePath[4];
+
+        //Delete previous avatar from storage
+        //Delete parent directories if they're empty
+        if(Storage::has($storageImagePath))
+        {
+          Storage::delete($storageImagePath);
+
+          $files = Storage::files($path);
+          if( count($files) == 0)
+          {
+            Storage::deleteDirectory($path);
+
+            //check all files because other user's avatar may exist
+            $files = Storage::allFiles($firsrDir);
+            if( count($files) == 0)
+            {
+              Storage::deleteDirectory($firsrDir);
+            }
+          }
+        }
+      }
+
+      //put new avatar on storage
+      if(Storage::putFileAs($path , $file, $imgName))
+      {
+        $user->avatarURL = Storage::url($path. '/' . $imgName);
+        $user->save();
+      }
+
+      return View::make('users.show')->with('user', $user);
+    }
 
     /**
      * Show the form to add a costume to an user
@@ -115,18 +184,24 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-      $user = User::create($request->only('userName',
-                                          'firstName',
-                                          'lastName',
-                                          'email',
-                                          'phoneNumber',
-                                          'facebookURL',
-                                          'isPersonalDataVisiblle',
-                                          'position',
-                                          'status',
-                                          'internationalRebelLegionURL',
-                                          null,
-                                          'password'));
+      $personalData = is_null($request->isPersonalDataVisiblle) ? false : true;
+      $isAdmin = is_null($request->isAdmin) ? false : true;
+      $user = User::create([
+          'userName' => $request['userName'],
+          'firstName' => $request['firstName'],
+          'lastName' => $request['lastName'],
+          'email' => $request['email'],
+          'phoneNumber' => $request['phoneNumber'],
+          'facebookURL' => $request['facebookURL'],
+          'isPersonalDataVisiblle' => $personalData,
+          'isAdmin' => $isAdmin,
+          'position' => $request['position'],
+          'status' => $request['status'],
+          'internationalRebelLegionURL' => $request['internationalRebelLegionURL'],
+          'avatarURL' => null,
+          'password' => bcrypt($request['password']),
+      ]);
+
       return redirect()->route('users.index', App::getLocale());
     }
 
@@ -170,11 +245,11 @@ class UserController extends Controller
       $user->email = $request->email;
       $user->phoneNumber = $request->phoneNumber;
       $user->facebookURL = $request->facebookURL;
-      $user->isPersonalDataVisiblle = $request->isPersonalDataVisiblle;
+      $user->isPersonalDataVisiblle = is_null($request->isPersonalDataVisiblle) ? false : true;
+      $user->isAdmin = is_null($request->isAdmin) ? false : true;
       $user->position = $request->position;
       $user->status = $request->status;
       $user->internationalRebelLegionURL = $request->internationalRebelLegionURL;
-      $user->password = $request->password;
       $user->save();
       return redirect()->route('users.index', App::getLocale());
     }

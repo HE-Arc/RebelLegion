@@ -35,15 +35,17 @@
       </tbody>
     </table>
 
-    <div class="row">
-      {{ Form::open([ 'class' => 'edit_delete_forms', 'method' => 'GET', 'route' => ['costumes.edit', 'lang' => App::getLocale(), 'costume' => $costume->id] ]) }}
-        <button type="submit" class="button success">@lang('forms_buttons_common.edit')</button>
-      {{ Form::close() }}
+    @if(Auth::check() && Auth::user()->isAdmin)
+      <div class="row">
+        {{ Form::open([ 'class' => 'edit_delete_forms', 'method' => 'GET', 'route' => ['costumes.edit', 'lang' => App::getLocale(), 'costume' => $costume->id] ]) }}
+          <button type="submit" class="button success">@lang('forms_buttons_common.edit')</button>
+        {{ Form::close() }}
 
-      {{ Form::open([ 'class' => 'edit_delete_forms', 'method' => 'DELETE', 'route' => ['costumes.destroy', 'lang' => App::getLocale(), 'costume' => $costume->id] ]) }}
-        <button type="submit" class="button alert">@lang('forms_buttons_common.delete')</button>
-      {{ Form::close() }}
-    </div>
+        {{ Form::open([ 'class' => 'edit_delete_forms', 'method' => 'DELETE', 'route' => ['costumes.destroy', 'lang' => App::getLocale(), 'costume' => $costume->id] ]) }}
+          <button type="submit" class="button alert">@lang('forms_buttons_common.delete')</button>
+        {{ Form::close() }}
+      </div>
+    @endif
 
   </div>
 </div>

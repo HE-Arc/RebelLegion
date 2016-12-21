@@ -47,24 +47,24 @@
 
       @if (Auth::guest())
       <li><a class="menu_link_login" href="{{ route('login', ['lang' => App::getLocale() ] ) }}"><i class="fi-torso"></i> <span>{{ trans('auth.login') }}</span></a></li>
-      <li><a class="menu_link_register" href="{{ route('register', ['lang' => App::getLocale() ] ) }}">{{ trans('auth.register') }}</a></li>
+
       @else
       <li role="menu">
         <a >
-            {{ Auth::user()->name }}
+            {{ Auth::user()->userName }}
         </a>
         <ul class="menu vertical nested" >
           <li role="menuitem">
             <a href="{{url('/account/tab1')}}">Mon compte</a>
           </li>
           <li role="menuitem">
-            <a href="{{ url('/logout') }}"
+            <a href="{{ route('logout', App::getLocale() ) }}"
                 onclick="event.preventDefault();
                          document.getElementById('logout-form').submit();">
                 {{ trans('auth.logout') }}
             </a>
           </li>
-          <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+          <form id="logout-form" action="{{ route('logout', App::getLocale() ) }}" method="POST" style="display: none;">
               {{ csrf_field() }}
           </form>
         </ul>
@@ -156,7 +156,7 @@
            </li>
              @if (Auth::guest())
              <li><a class="menu_link_login" href="{{ route('login', ['lang' => App::getLocale() ] ) }}"><i class="fi-torso"></i> <span>{{ trans('auth.login') }}</span></a></li>
-             <li><a class="menu_link_register" href="{{ route('register', ['lang' => App::getLocale() ] ) }}">{{ trans('auth.register') }}</a></li>
+             
              @else
              <li class="is-dropdown-submenu-parent opens-right" role="menuitem">
                <a >

@@ -58,9 +58,17 @@
 
       <div class="row">
         <label for="isPersonalDataVisiblle">@lang('users.isPersonalDataVisiblle')</label>
-        <input type="number" id="isPersonalDataVisiblle" name="isPersonalDataVisiblle" value="{{ old('isPersonalDataVisiblle') }}" required/>
+        <input type="checkbox" id="isPersonalDataVisiblle" name="isPersonalDataVisiblle"/>
         @if ($errors->has('isPersonalDataVisiblle'))
           <small class="error">{{ $errors->first('isPersonalDataVisiblle') }}</small>
+        @endif
+      </div>
+
+      <div class="row">
+        <label for="isAdmin">@lang('users.isAdmin')</label>
+        <input type="checkbox" id="isAdmin" name="isAdmin"/>
+        @if ($errors->has('isAdmin'))
+          <small class="error">{{ $errors->first('isAdmin') }}</small>
         @endif
       </div>
 

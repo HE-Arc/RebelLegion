@@ -4,17 +4,17 @@
 @section('content')
     <div class="row">
       <div class="small-12 small-centered medium-8 large-6 columns">
-        <div class="callout-header">Reset Password</div>
+        <div class="callout-header">@lang('auth.resetPassword')</div>
         <div class="callout form">
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
                 </div>
             @endif
-                <form role="form" method="POST" action="{{ url('/password/email') }}">
+                <form role="form" method="POST" action="{{ route('sendResetLinkEmail', App::getLocale()) }}">
                     {{ csrf_field() }}
 
-                    <label>Adresse e-mail *
+                    <label>@lang('users.email')
                       <input id="email" type="email" name="email" placeholder="monmail@exemple.com" value="{{ old('email') }}" required="required" aria-describedby="exampleHelpText">
                       @if ($errors->has('email'))
                           <span>
@@ -23,14 +23,9 @@
                       @endif
                     </label>
 
-                    <p class="help-text" id="helpText">
-                      Les champs indiqués par une * sont obligatoires
-                    </p>
 
           					<p>
-          						<button type="submit" class="button expanded">
-          								Send Password Reset Link
-          						</button>
+          						<button type="submit" class="button expanded">@lang('auth.sendPasswordResetLink')</button>
           					</p>
 
                 </form>

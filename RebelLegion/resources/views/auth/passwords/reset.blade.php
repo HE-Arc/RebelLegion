@@ -7,7 +7,7 @@
         <div class="callout-header">@lang('auth.resetPassword')</div>
         <div class="callout form">
 
-                    <form  role="form" method="POST" action="{{ route('passwordReset', ['lang' => App::getLocale()] ) }}">
+                    <form  role="form" method="POST" action="{{ route('passwordResetPost', App::getLocale() ) }}">
                         {{ csrf_field() }}
                         <input type="hidden" name="token" value="{{ $token }}">
 

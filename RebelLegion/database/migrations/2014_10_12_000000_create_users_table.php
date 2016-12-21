@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('phoneNumber');
             $table->string('facebookURL');
             $table->boolean('isPersonalDataVisiblle');
+            $table->boolean('isAdmin');
             $table->string('position');
             $table->string('status');
             $table->string('internationalRebelLegionURL');

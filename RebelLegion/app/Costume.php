@@ -28,4 +28,12 @@ class Costume extends Model
   {
       return $this->belongsToMany('App\User');
   }
+
+  /**
+   * Get the images that owns the costume.
+   */
+  public function images()
+  {
+     return $this->hasMany('App\CostumeImage');
+  }
 }

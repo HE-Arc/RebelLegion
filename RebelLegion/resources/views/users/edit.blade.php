@@ -56,31 +56,7 @@
         <small class="error">{{ $errors->first('facebookURL') }}</small>
       @endif
     </div>
-
-    <div class="row">
-      <label for="isPersonalDataVisiblle">@lang('users.isPersonalDataVisiblle')</label>
-      <input type="number" id="isPersonalDataVisiblle" name="isPersonalDataVisiblle" value="{{ $user->isPersonalDataVisiblle }}" required/>
-      @if ($errors->has('isPersonalDataVisiblle'))
-        <small class="error">{{ $errors->first('isPersonalDataVisiblle') }}</small>
-      @endif
-    </div>
-
-    <div class="row">
-      <label for="position">@lang('users.position')</label>
-      <input type="text" id="position" name="position" value="{{ $user->position }}" required/>
-      @if ($errors->has('position'))
-        <small class="error">{{ $errors->first('position') }}</small>
-      @endif
-    </div>
-
-    <div class="row">
-      <label for="status">@lang('users.status')</label>
-      <input type="text" id="status" name="status" value="{{ $user->status }}" required/>
-      @if ($errors->has('status'))
-        <small class="error">{{ $errors->first('status') }}</small>
-      @endif
-    </div>
-
+    
     <div class="row">
       <label for="internationalRebelLegionURL">@lang('users.internationalRebelLegionURL')</label>
       <input type="url" id="internationalRebelLegionURL" name="internationalRebelLegionURL" value="{{ $user->internationalRebelLegionURL }}" required/>
@@ -90,20 +66,46 @@
     </div>
 
     <div class="row">
-        <label for="password">@lang('users.password')</label>
-        <input type="password" id="password" name="password" required/>
-        @if ($errors->has('password'))
-          <small class="error">{{ $errors->first('password') }}</small>
-        @endif
+      <label for="isPersonalDataVisiblle">@lang('users.isPersonalDataVisiblle')</label>
+      <input type="checkbox" id="isPersonalDataVisiblle" name="isPersonalDataVisiblle"
+      @if($user->isPersonalDataVisiblle == true)
+        checked
+      @endif
+      />
+      @if ($errors->has('isPersonalDataVisiblle'))
+        <small class="error">{{ $errors->first('isPersonalDataVisiblle') }}</small>
+      @endif
     </div>
 
-    <div class="row">
-        <label for="passwordConfirmation">@lang('users.passwordConfirmation')</label>
-        <input type="password" id="passwordConfirmation" name="passwordConfirmation" required />
-        @if ($errors->has('passwordConfirmation'))
-          <small class="error">{{ $errors->first('passwordConfirmation') }}</small>
+    @if(Auth::check() && Auth::user()->isAdmin)
+      <div class="row">
+        <label for="isAdmin">@lang('users.isAdmin')</label>
+        <input type="checkbox" id="isAdmin" name="isAdmin"
+        @if($user->isAdmin == true)
+          checked
         @endif
-    </div>
+        />
+        @if ($errors->has('isAdmin'))
+          <small class="error">{{ $errors->first('isAdmin') }}</small>
+        @endif
+      </div>
+
+      <div class="row">
+        <label for="position">@lang('users.position')</label>
+        <input type="text" id="position" name="position" value="{{ $user->position }}" required/>
+        @if ($errors->has('position'))
+          <small class="error">{{ $errors->first('position') }}</small>
+        @endif
+      </div>
+
+      <div class="row">
+        <label for="status">@lang('users.status')</label>
+        <input type="text" id="status" name="status" value="{{ $user->status }}" required/>
+        @if ($errors->has('status'))
+          <small class="error">{{ $errors->first('status') }}</small>
+        @endif
+      </div>
+    @endif
 
     <div class="row">
         <button type="submit" class="button">

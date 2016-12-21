@@ -9,6 +9,8 @@ return [
     */
     'user' => 'User',
     'costume' => 'Costume',
+    'yes' => 'Yes',
+    'no' => 'No',
     'to' => 'to',
     'add' => 'Add',
     'remove' => 'Remove',

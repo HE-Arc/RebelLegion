@@ -20,5 +20,6 @@ return [
     'register' => 'Registrieren',
     'logout' => 'Logout',
     'forgotPassword' => 'Passwort vergessen?',
+    'sendPasswordResetLink' => 'Senden passwort zurücksetzen link',
     'resetPassword' => 'Passwort zurücksetzen'
 ];

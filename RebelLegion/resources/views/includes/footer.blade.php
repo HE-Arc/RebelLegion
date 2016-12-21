@@ -19,14 +19,7 @@
         <li><a href="{{ route('contact', App::getLocale() ) }}">Executive Officier</a></li>
       </ul>
     </div>
-    <div class="medium-12 large-4 columns">
-      <h6 class="bot_title">Other</h6>
-      <ul class="bot_menu">
-        <li><a href="">Legal</a></li>
-        <li><a href="">Privacy Statement</a></li>
-        <li><a href="">FAQ's</a></li>
-      </ul>
-    </div>
+    
   </div>
   <div class="row small-centered small-12 medium-7 large-4 anim-star-wars" >
     <div class=" columns anim-star-wars-child">

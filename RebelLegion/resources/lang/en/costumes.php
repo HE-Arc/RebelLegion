@@ -16,5 +16,7 @@ return [
     'descriptionEN' => 'English description',
     'descriptionFR' => 'French description ',
     'descriptionDE' => 'German description',
-    'internationalRebelLegionURL' => 'RebeleLegion international costume URL'
+    'internationalRebelLegionURL' => 'RebeleLegion international costume URL',
+    'setThumbnail' => 'Set thumbnail',
+    'addImage' => 'Add image'
 ];

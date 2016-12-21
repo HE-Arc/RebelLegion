@@ -23,5 +23,6 @@ return [
      'register' => "S'enregistrer",
      'logout' => 'Se déconnecter',
      'forgotPassword' => 'Mot de passe oublié?',
+     'sendPasswordResetLink' => 'Envoyer lien de réinitialisation du mot de passe',
      'resetPassword' => 'Réinitialisaer mot de passe'
 ];

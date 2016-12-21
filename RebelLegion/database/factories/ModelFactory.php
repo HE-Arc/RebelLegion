@@ -22,6 +22,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'phoneNumber' => $faker->phoneNumber,
         'facebookURL' => $faker->url,
         'isPersonalDataVisiblle' => $faker->boolean,
+        'isAdmin' => $faker->boolean,
         'position' => $faker->randomElement($array = array ('officier','chef')),
         'status' => $faker->randomElement($array = array ('actif','suspendu','irradié')),
         'internationalRebelLegionURL' => $faker->url,

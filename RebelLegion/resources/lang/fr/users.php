@@ -18,11 +18,13 @@ return [
     'phoneNumber' => 'Numéro de téléphone',
     'facebookURL' => 'URL Facebook',
     'isPersonalDataVisiblle' => 'Affiher données personelles',
+    'isAdmin' => 'Est administrateur',
     'position' => 'Position',
     'status' => 'Status',
     'internationalRebelLegionURL' => 'URL de profil RebeleLegion international',
     'avatarURL' => 'Avatar',
     'password' => 'Mot de passe',
     'passwordConfirmation' => 'Confirmez mot de passe',
-    'rememberMe' => 'Se souvenir de moi'
+    'rememberMe' => 'Se souvenir de moi',
+    'setAvatar'=> 'Changer avatar'
 ];

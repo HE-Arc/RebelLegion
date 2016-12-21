@@ -22,6 +22,7 @@ class User extends Authenticatable
       'phoneNumber',
       'facebookURL',
       'isPersonalDataVisiblle',
+      'isAdmin',
       'position',
       'status',
       'internationalRebelLegionURL',

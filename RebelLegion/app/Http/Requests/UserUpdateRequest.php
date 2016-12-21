@@ -33,12 +33,11 @@ class UserUpdateRequest extends FormRequest
           'email' => 'required|email|unique:users,email,' . Input::get('email') . ',email',
           'phoneNumber' => 'required|string',
           'facebookURL' => 'required|url',
-          'isPersonalDataVisiblle' => 'required|string',
+          'isPersonalDataVisiblle' => 'nullable',
+          'isAdmin' => 'nullable',
           'position' => 'required|string',
           'status' => 'required|string',
-          'internationalRebelLegionURL' => 'required|url',
-          'password' => 'required|alpha_dash|min:6',
-          'passwordConfirmation' => 'required|same:password'
+          'internationalRebelLegionURL' => 'required|url'
         ];
     }
 }

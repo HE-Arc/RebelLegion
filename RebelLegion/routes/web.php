@@ -18,19 +18,15 @@ Route::get('', function() {
     return redirect()->route('index', App::getLocale());
 });
 
-
-
 //Ajouter costume
 Route::post('apply/upload', 'ApplyController@upload');
 
-
-
 // Registration Routes...
-Route::post('register', 'Auth\RegisterController@register');
-
-// Password Reset Routes...
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+// Route::post('register', 'Auth\RegisterController@register');
+//
+// // Password Reset Routes...
+// Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+// Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::group([
     'prefix' => '{lang}',
@@ -38,79 +34,95 @@ Route::group([
     'middleware' => 'locale'
 ], function() {
 
+  /***************************************************************************
+  *                     Authentication
+  ***************************************************************************/
 
 
-    //Ajax request on costume.index
-    Route::post('/costumes/updateindex/{costume_id}', 'CostumeController@indexupdate');
+  Auth::routes();
 
-    // Login route
-    Route::post('login', 'Auth\LoginController@login');
-    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+  Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('passwordReset');
 
-    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-    Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+  Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('sendResetLinkEmail');
+  Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passwordResetPost');
 
-    Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('passwordreset');
-    Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('passwordresettoken');
+  /***************************************************************************
+  *                     Index
+  ***************************************************************************/
 
-    Route::get('', function () {
-        return view('welcome');
-    })->name('index');
+  Route::get('', ['as' => 'index', 'uses' => 'HomeController@index']);
 
-    Route::group(['middleware' => 'auth'], function () {
-      Route::get('home', 'HomeController@index')->name('home');
+  /***************************************************************************
+  *                     Users
+  ***************************************************************************/
+  Route::get('users/{user}/setAvatar', 'UserController@setAvatar')
+  ->name('users.setAvatar');
 
-      Route::get('/account/tab{tab_id}',
-        function($lang, $tab_id) {
-          return view('account', ['tab_id' => $tab_id]);
-        }
-      )->where(['tab_id' => '[1-3]'])->name('account');
+  Route::post('users/{user}/storeAvatar', 'UserController@storeAvatar')
+  ->name('users.storeAvatar');
 
-    });
+  Route::get('users/{user}/addCostume', 'UserController@addCostume')
+  ->name('users.addCostume');
 
-    Route::get('contact', function () {
-        return view('contact');
-    })->name('contact');
+  Route::post('users/{user}/addCostume', 'UserController@storeCostume')
+  ->name('users.storeCostume');
 
+  Route::post('users/{user}/removeCostume/{costume}',
+   'UserController@removeCostume')->name('users.removeCostume');
 
-    Route::get('costumes', function () {
-      $usersSmall = User::paginate(3);
-      $usersMedium = User::paginate(6);
-      $usersLarge = User::paginate(8);
-      $users = User::take(30)->get(); //On n'en prend que 30 pour les tests, sinon faire User::all()
+  Route::resource('users', 'UserController');
 
-      //dd($users[1]['id'], $users[2], count($users));
-    Route::get('users/{user}/addCostume', 'UserController@addCostume')
-    ->name('users.addCostume');
+  /***************************************************************************
+  *                     Costumes
+  ***************************************************************************/
 
-    Route::post('users/{user}/addCostume', 'UserController@storeCostume')
-    ->name('users.storeCostume');
+  Route::get('costumes/{costume}/setThumbnail', 'CostumeController@setThumbnail')
+  ->name('costumes.setThumbnail');
 
+  Route::post('costumes/{costume}/storeThumbnail', 'CostumeController@storeThumbnail')
+  ->name('costumes.storeThumbnail');
 
-      return view('members', ['usersSmall' => $usersSmall, 'usersMedium' => $usersMedium, 'usersLarge' => $usersLarge]);
-  })->name('members');
+  Route::get('costumes/{costume}/addImage', 'CostumeController@addImage')
+  ->name('costumes.addImage');
 
-    Route::post('users/{user}/removeCostume/{costume}',
-     'UserController@removeCostume')->name('users.removeCostume');
+  Route::post('costumes/{costume}/storeImage', 'CostumeController@storeImage')
+  ->name('costumes.storeImage');
 
-    Route::resource('users', 'UserController');
+  Route::post('costumes/{costume}/removeImage/{image}', 'CostumeController@removeImage')
+  ->name('costumes.removeImage');
 
+  //Ajax request on costume.index
+  Route::post('/costumes/updateindex/{costume_id}', 'CostumeController@indexupdate');
 
-    Route::resource('costumes', 'CostumeController');
+  Route::resource('costumes', 'CostumeController');
 
-    Route::get('/contact', function () {
-        return view('contact');
-    })->name('contact');
+// Route::get('members/{userid}', function ($lang, $userid) {
+//       $user = User::find($userid);
+//       if(isset($user)){
+//         return view('membercard', ['user' => $user] );
+//       }
+//       else{
+//         return redirect('');
+//       }
+//   })->name('membercard');
 
-Route::get('members/{userid}', function ($lang, $userid) {
-      $user = User::find($userid);
-      if(isset($user)){
-        return view('membercard', ['user' => $user] );
-      }
-      else{
-        return redirect('');
-      }
-  })->name('membercard');Route::get('/aboutus', function () {      return view('aboutus');
+  /***************************************************************************
+  *                     About us
+  ***************************************************************************/
+
+  Route::get('/aboutus', function () {
+    return view('aboutus');
   })->name('aboutus');
 
+  /***************************************************************************
+  *                     Contacts
+  ***************************************************************************/
+
+  Route::get('/contact', function () {
+      return view('contact');
+  })->name('contact');
+
+  Route::get('contact', function () {
+      return view('contact');
+  })->name('contact');
 });

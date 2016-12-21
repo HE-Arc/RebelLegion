@@ -2,11 +2,13 @@
 
 @section('content')
 
-  <div class="row">
-    <div class="large-1 large-centered medium-1 medium-centered small-1 small-centered columns">
-      <a href="{{ route('costumes.create', [ 'lang' => App::getLocale()] ) }}" class="button">@lang('forms_buttons_common.create')</a>
+  @if(Auth::check() && Auth::user()->isAdmin)
+    <div class="row">
+      <div class="large-1 large-centered medium-1 medium-centered small-1 small-centered columns">
+        <a href="{{ route('costumes.create', [ 'lang' => App::getLocale()] ) }}" class="button">@lang('forms_buttons_common.create')</a>
+      </div>
     </div>
-  </div>
+  @endif
 
   <div class="first-element show-for-small-only row">
 		<div class="small-centered small-12 large-10 columns game_info_desc">
@@ -33,10 +35,16 @@
 							@for($j = 0; ($j < 3) and ($i < count($costumes)); $j++)
                 @php
                   $ido = $costumes[$i]->id;
+                  $name = $costumes[$i]->name;
+                  $thumb = $costumes[$i]->thumbnailURL;
                 @endphp
 								<div class="small-4 columns">
                   <a href="{{route('costumes.show', ['lang' => App::getLocale(), 'costume' => $ido] )}}">
-									 <img class="thumbnail remove_link_if_js" src="{{asset("img/joconde.jpg")}}" alt="{{$ido}}">
+                    @if( $thumb != null)
+                      <img class="thumbnail" src="{{ asset($thumb) }}" alt="{{ $name }}'s thumbnail">
+                    @else
+                      <img class="thumbnail" src="{{ asset('img/costume.jpg') }}" alt="{{ $name }}'s thumbnail'">
+                    @endif
                   <a>
 								</div>
 
@@ -81,10 +89,16 @@
 							@for($j = 0; ($j < 6) and ($i < count($costumes)); $j++)
                 @php
                   $ido = $costumes[$i]->id;
+                  $name = $costumes[$i]->name;
+                  $thumb = $costumes[$i]->thumbnailURL;
                 @endphp
 								<div class="medium-2 columns">
                   <a href="{{route('costumes.show', ['lang' => App::getLocale(), 'costume' => $ido] )}}">
-									 <img class="thumbnail remove_link_if_js" src="{{asset("img/joconde.jpg")}}" alt="{{$ido}}">
+                    @if( $thumb != null)
+                      <img class="thumbnail" src="{{ asset($thumb) }}" alt="{{ $name }}'s thumbnail">
+                    @else
+                      <img class="thumbnail" src="{{ asset('img/costume.jpg') }}" alt="{{ $name }}'s thumbnail'">
+                    @endif
                   </a>
 								</div>
 
@@ -131,10 +145,16 @@
 							@for($j = 0; ($j < 8) and ($i < count($costumes)); $j++)
               @php
                 $ido = $costumes[$i]->id;
+                $name = $costumes[$i]->name;
+                $thumb = $costumes[$i]->thumbnailURL;
               @endphp
 								<div class="column-1of8 column">
                   <a href="{{route('costumes.show', ['lang' => App::getLocale(), 'costume' => $ido] )}}">
-									 <img class="thumbnail remove_link_if_js" src="{{asset("img/joconde.jpg")}}" alt="{{$ido}}">
+                    @if( $thumb != null)
+                      <img class="thumbnail" src="{{ asset($thumb) }}" alt="{{ $name }}'s thumbnail">
+                    @else
+                      <img class="thumbnail" src="{{ asset('img/costume.jpg') }}" alt="{{ $name }}'s thumbnail'">
+                    @endif
                   </a>
 
 								</div>
