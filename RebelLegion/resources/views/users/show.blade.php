@@ -55,9 +55,9 @@
             <td><a href="{{ $user->internationalRebelLegionURL }}">{{ $user->internationalRebelLegionURL }}</a></td>
           </tr>
           <tr>
-            <th>@lang('users.isPersonalDataVisiblle')</th>
+            <th>@lang('users.isPersonalDataVisible')</th>
             <td>
-              @if($user->isPersonalDataVisiblle == true)
+              @if($user->isPersonalDataVisible == true)
                 @lang('forms_buttons_common.yes')
               @else
                 @lang('forms_buttons_common.no')

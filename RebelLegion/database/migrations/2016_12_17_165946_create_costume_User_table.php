@@ -14,8 +14,8 @@ class CreateCostumeUserTable extends Migration
     public function up()
     {
         Schema::create('costume_user', function (Blueprint $table) {
-            $table->integer('costume_id');
-            $table->integer('user_id');
+            $table->integer('costume_id')->unsigned();
+            $table->integer('user_id')->unsigned();
 
             $table->foreign('costume_id')
                   ->references('id')->on('costumes')

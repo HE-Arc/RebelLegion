@@ -184,7 +184,7 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-      $personalData = is_null($request->isPersonalDataVisiblle) ? false : true;
+      $personalData = is_null($request->isPersonalDataVisible) ? false : true;
       $isAdmin = is_null($request->isAdmin) ? false : true;
       $user = User::create([
           'userName' => $request['userName'],
@@ -193,7 +193,7 @@ class UserController extends Controller
           'email' => $request['email'],
           'phoneNumber' => $request['phoneNumber'],
           'facebookURL' => $request['facebookURL'],
-          'isPersonalDataVisiblle' => $personalData,
+          'isPersonalDataVisible' => $personalData,
           'isAdmin' => $isAdmin,
           'position' => $request['position'],
           'status' => $request['status'],
@@ -245,7 +245,7 @@ class UserController extends Controller
       $user->email = $request->email;
       $user->phoneNumber = $request->phoneNumber;
       $user->facebookURL = $request->facebookURL;
-      $user->isPersonalDataVisiblle = is_null($request->isPersonalDataVisiblle) ? false : true;
+      $user->isPersonalDataVisible = is_null($request->isPersonalDataVisible) ? false : true;
       $user->isAdmin = is_null($request->isAdmin) ? false : true;
       $user->position = $request->position;
       $user->status = $request->status;

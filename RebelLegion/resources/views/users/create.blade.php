@@ -57,10 +57,10 @@
       </div>
 
       <div class="row">
-        <label for="isPersonalDataVisiblle">@lang('users.isPersonalDataVisiblle')</label>
-        <input type="checkbox" id="isPersonalDataVisiblle" name="isPersonalDataVisiblle"/>
-        @if ($errors->has('isPersonalDataVisiblle'))
-          <small class="error">{{ $errors->first('isPersonalDataVisiblle') }}</small>
+        <label for="isPersonalDataVisible">@lang('users.isPersonalDataVisible')</label>
+        <input type="checkbox" id="isPersonalDataVisible" name="isPersonalDataVisible"/>
+        @if ($errors->has('isPersonalDataVisible'))
+          <small class="error">{{ $errors->first('isPersonalDataVisible') }}</small>
         @endif
       </div>
 

@@ -33,7 +33,7 @@ class UserUpdateRequest extends FormRequest
           'email' => 'required|email|unique:users,email,' . Input::get('email') . ',email',
           'phoneNumber' => 'required|string',
           'facebookURL' => 'required|url',
-          'isPersonalDataVisiblle' => 'nullable',
+          'isPersonalDataVisible' => 'nullable',
           'isAdmin' => 'nullable',
           'position' => 'required|string',
           'status' => 'required|string',

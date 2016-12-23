@@ -20,7 +20,7 @@ class UsersTableSeeder extends Seeder
         'email' => 'fabioman.damotama@gmail.com',
         'phoneNumber' => '123456',
         'facebookURL' => 'http://www.google.com',
-        'isPersonalDataVisiblle' => '1',
+        'isPersonalDataVisible' => '1',
         'isAdmin' => '1',
         'position' => 'officier',
         'status' => 'actif',

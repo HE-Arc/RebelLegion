@@ -21,7 +21,7 @@ class User extends Authenticatable
       'email',
       'phoneNumber',
       'facebookURL',
-      'isPersonalDataVisiblle',
+      'isPersonalDataVisible',
       'isAdmin',
       'position',
       'status',

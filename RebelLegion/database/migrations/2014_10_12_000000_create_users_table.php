@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('phoneNumber');
             $table->string('facebookURL');
-            $table->boolean('isPersonalDataVisiblle');
+            $table->boolean('isPersonalDataVisible');
             $table->boolean('isAdmin');
             $table->string('position');
             $table->string('status');

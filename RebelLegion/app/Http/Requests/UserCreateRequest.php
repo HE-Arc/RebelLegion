@@ -30,7 +30,7 @@ class UserCreateRequest extends FormRequest
           'email' => 'required|email|unique:users,email',
           'phoneNumber' => 'required|string',
           'facebookURL' => 'required|url',
-          'isPersonalDataVisiblle' => 'nullable',
+          'isPersonalDataVisible' => 'nullable',
           'isAdmin' => 'nullable',
           'position' => 'required|string',
           'status' => 'required|string',

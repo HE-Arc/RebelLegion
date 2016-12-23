@@ -21,7 +21,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'phoneNumber' => $faker->phoneNumber,
         'facebookURL' => $faker->url,
-        'isPersonalDataVisiblle' => $faker->boolean,
+        'isPersonalDataVisible' => $faker->boolean,
         'isAdmin' => $faker->boolean,
         'position' => $faker->randomElement($array = array ('officier','chef')),
         'status' => $faker->randomElement($array = array ('actif','suspendu','irradié')),
